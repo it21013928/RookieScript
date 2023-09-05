@@ -34,4 +34,10 @@ app.listen(port, () => {
   console.log(`Server is listening on http://localhost:${port}`);
 });
 
+//Import Routes
+const lessonRoutes = require("./src/routes/lessonRoutes");
+
+//Use routes
+app.use("/api/lesson", lessonRoutes);
+
 module.exports = app;
