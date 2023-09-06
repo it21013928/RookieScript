@@ -9,5 +9,5 @@ const workspaceSchema = new Schema({
   }
 });
 
-// export user model
+// export workspace model
 module.exports = mongoose.model("workspaces", workspaceSchema);
