@@ -86,6 +86,98 @@ const getLessonById = async (req, res) => {
   }
 };
 
+//Get lesson by XpLevel
+const getLessonsByXpLevel = async (req, res) => {
+  try {
+    const lesson = await Lesson.findOne({ xpLevel: req.params.xpLevel });
+    if (!lesson) {
+      return res.status(404).json({ message: "Lessons not found" });
+    } else {
+      res.status(200).json(lesson);
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+//Get lesson by language
+const getLessonsByLanguage = async (req, res) => {
+  try {
+    const lesson = await Lesson.findOne({ language: req.params.language });
+    if (!lesson) {
+      return res.status(404).json({ message: "Lessons not found" });
+    } else {
+      res.status(200).json(lesson);
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+// Get lessons with videos
+const getLessonsWithVideos = async (req, res) => {
+  try {
+    const filter = {
+      videoList: { $exists: true, $not: { $size: 0 } }, // Check if videoList exists and is not empty
+    };
+
+    const lessons = await Lesson.find(filter);
+
+    if (lessons.length === 0) {
+      return res.status(404).json({ message: "No lessons with videos found" });
+    } else {
+      res.status(200).json(lessons);
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+// Get lessons with articles
+const getLessonsWithArticles = async (req, res) => {
+  try {
+    const filter = {
+      articleList: { $exists: true, $not: { $size: 0 } }, // Check if articleList exists and is not empty
+    };
+
+    const lessons = await Lesson.find(filter);
+
+    if (lessons.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No lessons with articles found" });
+    } else {
+      res.status(200).json(lessons);
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+// Get lessons with quizzes
+const getLessonsWithQuizzes = async (req, res) => {
+  try {
+    const filter = {
+      quizList: { $exists: true, $not: { $size: 0 } }, // Check if quizList exists and is not empty
+    };
+
+    const lessons = await Lesson.find(filter);
+
+    if (lessons.length === 0) {
+      return res.status(404).json({ message: "No lessons with quizzes found" });
+    } else {
+      res.status(200).json(lessons);
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
 //Update a lesson
 const updateLesson = async (req, res) => {
   try {
@@ -146,6 +238,11 @@ module.exports = {
   createLesson,
   getAllLessons,
   getLessonById,
+  getLessonsByXpLevel,
+  getLessonsByLanguage,
+  getLessonsWithVideos,
+  getLessonsWithArticles,
+  getLessonsWithQuizzes,
   updateLesson,
   deleteLesson,
 };
