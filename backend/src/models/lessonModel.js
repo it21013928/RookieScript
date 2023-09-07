@@ -34,6 +34,10 @@ const lessonSchema = new Schema({
     type: [String],
     required: false,
   },
+  keywords: {
+    type: [String],
+    required: false,
+  },
 });
 
 // export user model

@@ -12,6 +12,7 @@ const createLesson = async (req, res) => {
       videoList,
       articleList,
       quizList,
+      keywords,
     } = req.body;
 
     //check title, description, xpLevel, language is empty
@@ -37,6 +38,7 @@ const createLesson = async (req, res) => {
       videoList,
       articleList,
       quizList,
+      keywords,
     });
     await newLesson.save();
 
@@ -49,6 +51,7 @@ const createLesson = async (req, res) => {
       videoList,
       articleList,
       quizList,
+      keywords,
     });
   } catch (err) {
     console.error(err);
@@ -178,6 +181,28 @@ const getLessonsWithQuizzes = async (req, res) => {
   }
 };
 
+// Get lessons with keywords
+const getLessonsWithKeywords = async (req, res) => {
+  try {
+    const filter = {
+      keywords: { $exists: true, $not: { $size: 0 } }, // Check if keywords exists and is not empty
+    };
+
+    const lessons = await Lesson.find(filter);
+
+    if (lessons.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No lessons with keywords found" });
+    } else {
+      res.status(200).json(lessons);
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
 //Update a lesson
 const updateLesson = async (req, res) => {
   try {
@@ -190,6 +215,7 @@ const updateLesson = async (req, res) => {
       videoList,
       articleList,
       quizList,
+      keywords,
     } = req.body;
 
     //find lesson by ID
@@ -207,6 +233,7 @@ const updateLesson = async (req, res) => {
     lesson.videoList = videoList || lesson.videoList;
     lesson.articleList = articleList || lesson.articleList;
     lesson.quizList = quizList || lesson.quizList;
+    lesson.keywords = keywords || lesson.keywords;
 
     await lesson.save();
 
@@ -243,6 +270,7 @@ module.exports = {
   getLessonsWithVideos,
   getLessonsWithArticles,
   getLessonsWithQuizzes,
+  getLessonsWithKeywords,
   updateLesson,
   deleteLesson,
 };
