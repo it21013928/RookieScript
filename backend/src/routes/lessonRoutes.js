@@ -21,7 +21,7 @@ router.post("/", createLesson);
 router.get("/", getAllLessons);
 
 //Get lesson by id
-router.get("/:id", getLessonById);
+router.get("/id/:id", getLessonById);
 
 //Get lessons by xpLevel
 router.get("/xpLevel/:xpLevel", getLessonsByXpLevel);

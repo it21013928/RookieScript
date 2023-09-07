@@ -17,6 +17,14 @@ app.use((req, res, next) => {
 
 app.use(cors());
 
+//Import Routes
+const lessonRoutes = require("./src/routes/lessonRoutes");
+//const workspaceRoutes = require("./src/routes/workspaceRoutes");
+
+//Use routes
+app.use("/api/lesson", lessonRoutes);
+//app.use("/api/workspace", workspaceRoutes);
+
 //Connect to MongoDB
 mongoose
   .connect(process.env.MONGODB_URI, {
@@ -33,11 +41,5 @@ mongoose
 app.listen(port, () => {
   console.log(`Server is listening on http://localhost:${port}`);
 });
-
-//Import Routes
-const lessonRoutes = require("./src/routes/lessonRoutes");
-
-//Use routes
-app.use("/api/lesson", lessonRoutes);
 
 module.exports = app;
