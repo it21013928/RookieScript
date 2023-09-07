@@ -10,6 +10,7 @@ const {
   getLessonsWithVideos,
   getLessonsWithArticles,
   getLessonsWithQuizzes,
+  getLessonsWithKeywords,
   updateLesson,
   deleteLesson,
 } = require("../controllers/lessonController");
@@ -37,6 +38,9 @@ router.get("/articles", getLessonsWithArticles);
 
 //Get lessons with quizzes
 router.get("/quizzes", getLessonsWithQuizzes);
+
+//Get lessons with keywords
+router.get("/keywords", getLessonsWithKeywords);
 
 //Update a lesson
 router.patch("/:id", updateLesson);
