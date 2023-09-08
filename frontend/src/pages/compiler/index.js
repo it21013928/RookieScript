@@ -7,7 +7,9 @@ import "ace-builds/src-noconflict/mode-php";
 import "ace-builds/src-noconflict/mode-python";
 import "ace-builds/src-noconflict/mode-javascript";
 import $ from "jquery";
+import Footer from "@/Layout/Footer";
 
+import Header from "@/Layout/Header";
 export default function Home() {
   const [selectedLanguage, setSelectedLanguage] = useState("c_cpp");
   const [output, setOutput] = useState("");
@@ -49,11 +51,8 @@ export default function Home() {
 
   return (
     <div>
-      <Head>
-        <title>Codeboard Online IDE</title>
-        <link rel="stylesheet" href="/css/style.css" />
-      </Head>
-      <div className="header">RookieScript</div>
+      <Header />
+
       <div className="control-panel">
         Select Language: &nbsp; &nbsp;
         <select
@@ -81,6 +80,7 @@ export default function Home() {
         editorProps={{ $blockScrolling: true }}
       />
       <div className="output">{output}</div>
+      <Footer />
     </div>
   );
 }
