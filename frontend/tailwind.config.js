@@ -1,18 +1,29 @@
-/** @type {import('tailwindcss').Config} */
+// tailwind.config.js
 module.exports = {
-  content: [
-    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
-  ],
+  content: ["./src/**/*.{html,js}", "./dist/**/*.{html,js}"],
+  important: true,
   theme: {
-    extend: {
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+    fontFamily: {
+      body: ["Work Sans", "sans-serif"],
+    },
+    screens: {
+      sm: "576px",
+      md: "768px",
+      lg: "992px",
+      xl: "1200px",
+      "2xl": "1200px",
+    },
+    container: {
+      center: true,
+      padding: {
+        DEFAULT: "1.125rem",
+        sm: "2.5rem",
+        lg: "2rem",
+        xl: "2rem",
+        "2xl": "2.5rem",
       },
     },
+    extend: {},
   },
-  plugins: [],
-}
+  plugins: [require("@tailwindcss/typography"), require("@tailwindcss/forms")],
+};
