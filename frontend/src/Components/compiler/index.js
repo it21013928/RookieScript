@@ -407,6 +407,15 @@ export default function compiler() {
     right: "8px",
     cursor: "pointer",
   };
+
+  const codeStyle = {
+    fontFamily: "monospace", // Use a monospace font
+    whiteSpace: "pre", // Preserve whitespace
+    tabSize: 4, // Set tab size (adjust as needed)
+    lineHeight: "1.2", // Adjust line height as needed
+    // Add any other CSS styles you prefer
+  };
+
   return (
     <div>
       <Modal
@@ -684,7 +693,10 @@ export default function compiler() {
                       color={copied ? "primary" : "action"}
                     />
                   </CopyToClipboard>
-                  <div>{result.code}</div>
+
+                  <pre style={codeStyle}>
+                    <div>{result.code}</div>
+                  </pre>
                 </Paper>
               </div>
             ))}
