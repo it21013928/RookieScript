@@ -5,16 +5,19 @@ import "ace-builds/src-noconflict/theme-monokai";
 import "ace-builds/src-noconflict/mode-c_cpp";
 import "ace-builds/src-noconflict/mode-php";
 import "ace-builds/src-noconflict/mode-python";
+import Link from "next/link";
 import "ace-builds/src-noconflict/mode-javascript";
 import $ from "jquery";
 import Grid from "@mui/material/Grid";
 import { Grow } from "@mui/material";
-
+import { Bubblegum_Sans } from "next/font/google";
+import { useRouter } from "next/navigation";
 export default function compiler() {
   const [selectedLanguage, setSelectedLanguage] = useState("c_cpp");
   const [output, setOutput] = useState("");
   const [editorTheme, setEditorTheme] = useState("monokai");
-
+  const [isError, setIsError] = useState(false);
+  const router = useRouter();
   useEffect(() => {
     const editor = ace.edit("editor");
     editor.setTheme(`ace/theme/${editorTheme}`);
@@ -44,13 +47,23 @@ export default function compiler() {
         code: ace.edit("editor").getSession().getValue(),
       },
       success: function (response) {
-        setOutput(response);
+        setOutput(output + response);
       },
     });
   }
   return (
     <div>
       <Grid container spacing={0}>
+        <Grid item xs={10}></Grid>
+        <Grid item xs={2}>
+          <button
+            className="mt-4  text-white-800 py-1 px-8 self-center border border-gray-800 text-white"
+            style={{ backgroundColor: "green", marginBottom: "1em" }}
+          >
+            Code Generator
+          </button>
+        </Grid>
+
         <Grid item xs={7} style={{ backgroundColor: "#2D2F34", height: "3em" }}>
           <Grid container spacing={0}>
             <Grid item xs={6.0}>
@@ -84,8 +97,36 @@ export default function compiler() {
         </Grid>
         <Grid item xs={5} style={{ backgroundColor: "#2D2F34", height: "3em" }}>
           <Grid container spacing={0}>
-            <Grid item xs={10}>
+            <Grid item xs={3}>
               <p className="ml-2 mt-3 text-white">Output</p>
+            </Grid>
+            <Grid item xs={6}>
+              <button
+                className="mt-4 mr-3 text-white-800 py-1 px-8 self-center border border-gray-800 text-white "
+                onClick={executeCode}
+                style={{
+                  fontSize: "0.7em",
+                  backgroundColor: "green",
+                  borderRadius: "5px",
+                }}
+              >
+                Evaluate code
+              </button>
+              {true ? (
+                <button
+                  className="mt-4  text-white-800 py-1 px-8 self-center border border-gray-800 text-white "
+                  onClick={executeCode}
+                  style={{
+                    fontSize: "0.7em",
+                    backgroundColor: "#620E17",
+                    borderRadius: "5px",
+                  }}
+                >
+                  Explore error
+                </button>
+              ) : (
+                <></>
+              )}
             </Grid>
             <Grid item xs={2}>
               <button
@@ -130,6 +171,15 @@ export default function compiler() {
           />
         </Grid>
       </Grid>
+
+      <Link
+        href={{
+          pathname: "/test",
+          query: { data: "hello" }, // the data
+        }}
+      >
+        Some text
+      </Link>
     </div>
   );
 }
