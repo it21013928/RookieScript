@@ -4,7 +4,7 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 
-const port = process.env.PORT;
+const port = 7000;
 const app = express();
 
 // middleware
@@ -20,14 +20,16 @@ app.use(cors());
 //Import Routes
 const lessonRoutes = require("./src/routes/lessonRoutes");
 const workspaceRoutes = require("./src/routes/workspaceRoutes");
+const codeSnippetRoutes = require("./src/routes/codeSnippetRoutes");
 
 //Use routes
 app.use("/api/lesson", lessonRoutes);
 app.use("/api/workspace", workspaceRoutes);
+app.use("/api/codeSnippets", codeSnippetRoutes)
 
 //Connect to MongoDB
 mongoose
-  .connect(process.env.MONGODB_URI, {
+  .connect("mongodb+srv://KithminaSiriwardana:KithminaSiriwardana@rookiescript.gbns506.mongodb.net/RookieScript?retryWrites=true&w=majority", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
