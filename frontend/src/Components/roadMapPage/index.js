@@ -20,11 +20,36 @@ function roadmapPage() {
   }, []);
 
   //submit the selected values
-  const handleSubmitQuesForm = () => {
+  const handleSubmitQuesForm = async () => {
     console.log("Selected Experience Level:", xpLevel);
     console.log("Open to Learn Multiple Languages:", multiLang);
     console.log("Preferred Language:", preferredLang);
     console.log("Prefer Interactive Learning:", interLearning);
+
+    try {
+      // Filter lessons
+      const filteredLessons = lessons.filter((lesson) => {
+        const xpLevelMatch =
+          lesson.xpLevel === xpLevel ||
+          lesson.xpLevel === xpLevel.toLowerCase();
+
+        const multiLangMatch = multiLang.toLowerCase() === "yes";
+
+        const preferredLangMatch =
+          lesson.language === preferredLang ||
+          lesson.language === preferredLang.toLowerCase();
+
+        if (multiLangMatch) {
+          return xpLevelMatch;
+        } else {
+          return xpLevelMatch && preferredLangMatch;
+        }
+      });
+
+      console.log("Lessons:", filteredLessons);
+    } catch (error) {
+      console.error("Error querying the database:", error);
+    }
   };
 
   return (
