@@ -10,7 +10,11 @@ function Footer() {
           <div className="w-full">
             <div className="text-center">
               <p className="font-bold text-xl mt-2 uppercase">ROOKIESCRIPT</p>
-
+              <p className=" text-sm mt-2">
+                All Right Reserved
+                <br />
+                Developed by Brogrammers
+              </p>
               <ul className="flex justify-center mt-8 gap-3">
                 <li>
                   <a

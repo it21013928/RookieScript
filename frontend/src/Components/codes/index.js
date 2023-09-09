@@ -51,9 +51,9 @@ function CodesComponent() {
   };
 
   return (
-    <div>
+    <div style={{ minHeight: "25em" }}>
       <div className="text-center">
-        <p className="font-bold text-xl mt-2 uppercase">
+        <p className="font-bold text-xl mt-2 uppercase mb-10">
           Workspace - {router.query.workspacename}
         </p>
       </div>

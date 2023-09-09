@@ -1,6 +1,7 @@
 import React from "react";
 import Logo from "../../assets/images/logo/logoSPM.jpg";
 import Image from "next/image";
+import Link from "next/link";
 
 function Header() {
   return (
@@ -8,9 +9,9 @@ function Header() {
       <div class="flex flex-col">
         <nav id="nav" class="py-8 md:border-b-0 border-b" role="navigation">
           <div class="container flex flex-wrap items-center md:flex-no-wrap">
-            <a href="index.html" class="">
+            <div href="index.html" class="">
               <Image src={Logo} alt="logo" width={200} height={100} />
-            </a>
+            </div>
             <div class="ml-auto md:hidden">
               <button
                 onclick="menuToggle()"
@@ -28,59 +29,58 @@ function Header() {
                 id="ulMenu"
                 class="flex flex-col duration-300 ease-out sm:transition-none md:flex-row ml-auto mt-5 md:mt-0"
               >
+                <Link href={{ pathname: "/" }}>
+                  <li>
+                    <div
+                      class="lg:px-6 font-medium font-secondary block text-blue-500 p-3 uppercase text-sm"
+                      href="index.html"
+                      title="Home"
+                    >
+                      Home
+                    </div>
+                  </li>
+                </Link>
+
+                <Link href={{ pathname: "/roadmap" }}>
+                  <li>
+                    <div
+                      class="lg:px-6 font-medium font-secondary block text-black/70 hover:text-blue-500 p-3 uppercase text-sm"
+                      href="roadmapPage.js"
+                      title="Service"
+                    >
+                      Roadmap
+                    </div>
+                  </li>
+                </Link>
+
+                <Link href={{ pathname: "/workspaces" }}>
+                  <li>
+                    <div
+                      class="lg:px-6 font-medium font-secondary block text-black/70 hover:text-blue-500 p-3 uppercase text-sm"
+                      href="work.html"
+                      title="Work"
+                    >
+                      Workspaces
+                    </div>
+                  </li>
+                </Link>
                 <li>
-                  <a
-                    class="lg:px-6 font-medium font-secondary block text-blue-500 p-3 uppercase text-sm"
-                    href="index.html"
-                    title="Home"
-                  >
-                    Home
-                  </a>
-                </li>
-                <li>
-                  <a
+                  <div
                     class="lg:px-6 font-medium font-secondary block text-black/70 hover:text-blue-500 p-3 uppercase text-sm"
                     href="about.html"
                     title="About"
                   >
                     About
-                  </a>
+                  </div>
                 </li>
                 <li>
-                  <a
-                    class="lg:px-6 font-medium font-secondary block text-black/70 hover:text-blue-500 p-3 uppercase text-sm"
-                    href="roadmapPage.js"
-                    title="Service"
-                  >
-                    Roadmap
-                  </a>
-                </li>
-                <li>
-                  <a
-                    class="lg:px-6 font-medium font-secondary block text-black/70 hover:text-blue-500 p-3 uppercase text-sm"
-                    href="work.html"
-                    title="Work"
-                  >
-                    Work
-                  </a>
-                </li>
-                <li>
-                  <a
-                    class="lg:px-6 font-medium font-secondary block text-black/70 hover:text-blue-500 p-3 uppercase text-sm"
-                    href="blog.html"
-                    title="Blog"
-                  >
-                    Blog
-                  </a>
-                </li>
-                <li>
-                  <a
+                  <div
                     class="lg:px-6 font-medium font-secondary block text-black/70 hover:text-blue-500 p-3 uppercase text-sm"
                     href="contact.html"
                     title="Contact"
                   >
                     Contact
-                  </a>
+                  </div>
                 </li>
               </ul>
             </div>
