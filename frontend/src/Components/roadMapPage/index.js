@@ -1,30 +1,36 @@
 import React, { useEffect, useState } from "react";
+import Axios from "axios";
+import { Radio, Card, Button, Typography } from "@material-tailwind/react";
 
 function roadmapPage() {
-  const [questions, setQuestions] = useState(null);
+  const [lessons, setLessons] = useState(null);
+  const [xpLevel, setXpLevel] = useState("");
+  const [multiLang, setMultiLang] = useState("");
+  const [preferredLang, setPreferredLang] = useState("");
+  const [interLearning, setInterLearning] = useState("");
+
+  //fetch all lessons
+  const fetchLessons = async () => {
+    const response = await Axios.get("http://localhost:7000/api/lesson/");
+    setLessons(response.data);
+  };
 
   useEffect(() => {
-    const fetchQuestions = async () => {
-      const response = await fetch(`http://localhost:7000/api/question`);
-      const json = await response.json();
-      console.log(json);
-      console.log(json[0]);
-      if (response.ok) {
-        setQuestions(json);
-      }
-    };
-
-    fetchQuestions();
+    fetchLessons();
   }, []);
 
-  // Filter the questions to get only radio button questions
-  const radioQuestions = questions
-    ? questions.filter((question) => question.type === "radio")
-    : [];
+  //submit the selected values
+  const handleSubmitQuesForm = () => {
+    console.log("Selected Experience Level:", xpLevel);
+    console.log("Open to Learn Multiple Languages:", multiLang);
+    console.log("Preferred Language:", preferredLang);
+    console.log("Prefer Interactive Learning:", interLearning);
+  };
 
   return (
     <div className=" pb-40">
       <section className="section py-14" id="home">
+        {/* intro container */}
         <div className="container">
           <div className="lg:flex justify-center">
             <div className="lg:w-3/3 mx-2">
@@ -50,135 +56,129 @@ function roadmapPage() {
           </div>
         </div>
 
-        {/* question container */}
+        {/* question title container */}
         <div className="container">
           <div className="lg:flex justify-center">
-            <div className="lg:w-3/3 mx-2">
+            <div className="lg:w-3/3 mt-2">
               <div className="text-center">
                 <h1 className="text-4xl font-semibold leading-[100px] tracking-wide text-transparent bg-clip-text bg-gradient-to-l from-pink-400 to-blue-600">
                   Answer these questions to get started
                 </h1>
-
-                {radioQuestions.map((question) => (
-                  <div
-                    className="text-base text-gray-700 mb-10"
-                    key={question._id}
-                  >
-                    <p>{question.questionText}</p>
-
-                    <div class="flex gap-10">
-                      <div class="inline-flex items-center">
-                        <label
-                          class="relative flex cursor-pointer items-center rounded-full p-3"
-                          for="html"
-                          data-ripple-dark="true"
-                        >
-                          <input
-                            id="html"
-                            name="type"
-                            type="radio"
-                            class="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-full border border-blue-gray-200 text-pink-500 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-pink-500 checked:before:bg-pink-500 hover:before:opacity-10"
-                          />
-                          <div class="pointer-events-none absolute top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 text-pink-500 opacity-0 transition-opacity peer-checked:opacity-100">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              class="h-3.5 w-3.5"
-                              viewBox="0 0 16 16"
-                              fill="currentColor"
-                            >
-                              <circle
-                                data-name="ellipse"
-                                cx="8"
-                                cy="8"
-                                r="8"
-                              ></circle>
-                            </svg>
-                          </div>
-                        </label>
-                        <label
-                          class="mt-px cursor-pointer select-none font-light text-gray-700"
-                          for="html"
-                        >
-                          {question.answer[0]}
-                        </label>
-                      </div>
-                      <div class="inline-flex items-center">
-                        <label
-                          class="relative flex cursor-pointer items-center rounded-full p-3"
-                          for="html"
-                          data-ripple-dark="true"
-                        >
-                          <input
-                            id="html"
-                            name="type"
-                            type="radio"
-                            class="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-full border border-blue-gray-200 text-pink-500 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-pink-500 checked:before:bg-pink-500 hover:before:opacity-10"
-                          />
-                          <div class="pointer-events-none absolute top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 text-pink-500 opacity-0 transition-opacity peer-checked:opacity-100">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              class="h-3.5 w-3.5"
-                              viewBox="0 0 16 16"
-                              fill="currentColor"
-                            >
-                              <circle
-                                data-name="ellipse"
-                                cx="8"
-                                cy="8"
-                                r="8"
-                              ></circle>
-                            </svg>
-                          </div>
-                        </label>
-                        <label
-                          class="mt-px cursor-pointer select-none font-light text-gray-400"
-                          for="html"
-                        >
-                          {question.answer[1]}
-                        </label>
-                      </div>
-                      <div class="inline-flex items-center">
-                        <label
-                          class="relative flex cursor-pointer items-center rounded-full p-3"
-                          for="html"
-                          data-ripple-dark="true"
-                        >
-                          <input
-                            id="html"
-                            name="type"
-                            type="radio"
-                            class="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-full border border-blue-gray-200 text-pink-500 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-pink-500 checked:before:bg-pink-500 hover:before:opacity-10"
-                          />
-                          <div class="pointer-events-none absolute top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 text-pink-500 opacity-0 transition-opacity peer-checked:opacity-100">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              class="h-3.5 w-3.5"
-                              viewBox="0 0 16 16"
-                              fill="currentColor"
-                            >
-                              <circle
-                                data-name="ellipse"
-                                cx="8"
-                                cy="8"
-                                r="8"
-                              ></circle>
-                            </svg>
-                          </div>
-                        </label>
-                        <label
-                          class="mt-px cursor-pointer select-none font-light text-gray-700"
-                          for="html"
-                        >
-                          {question.answer[2]}
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                ))}
               </div>
             </div>
           </div>
         </div>
+
+        {/* question form */}
+        <div className="lg:flex justify-center">
+          <Card color="transparent" shadow={false}>
+            <form className="mt-2 mb-2 max-w-screen-lg sm:w-150">
+              <Typography
+                color="gray"
+                className="mt-1 font-normal text-center text-lg font-bold"
+              >
+                What is your current programming experience level?
+              </Typography>
+              <div className="flex gap-2 text-center items-center">
+                <Radio
+                  name="xpLevel"
+                  label="Beginner"
+                  checked={xpLevel === "Beginner"}
+                  onChange={() => setXpLevel("Beginner")}
+                />
+
+                <Radio
+                  name="xpLevel"
+                  label="Intermediate"
+                  checked={xpLevel === "Intermediate"}
+                  onChange={() => setXpLevel("Intermediate")}
+                />
+
+                <Radio
+                  name="xpLevel"
+                  label="Advanced"
+                  checked={xpLevel === "Advanced"}
+                  onChange={() => setXpLevel("Advanced")}
+                />
+              </div>
+
+              <Typography
+                color="gray"
+                className="mt-1 font-normal text-center text-lg font-bold"
+              >
+                Are you open to learning multiple programming languages if they
+                align with your goals?
+              </Typography>
+              <div className="flex gap-2 items-center">
+                <Radio
+                  name="multiLang"
+                  label="Yes"
+                  checked={multiLang === "Yes"}
+                  onChange={() => setMultiLang("Yes")}
+                />
+                <Radio
+                  name="multiLang"
+                  label="No"
+                  checked={multiLang === "No"}
+                  onChange={() => setMultiLang("No")}
+                />
+              </div>
+
+              <Typography
+                color="gray"
+                className="mt-1 font-normal text-center text-lg font-bold"
+              >
+                Are you interested in a specific programming language?
+              </Typography>
+              <div className="flex gap-10">
+                <Radio
+                  name="preferredLang"
+                  label="Java"
+                  checked={preferredLang === "Java"}
+                  onChange={() => setPreferredLang("Java")}
+                />
+                <Radio
+                  name="preferredLang"
+                  label="Python"
+                  checked={preferredLang === "Python"}
+                  onChange={() => setPreferredLang("Python")}
+                />
+              </div>
+
+              <Typography
+                color="gray"
+                className="mt-1 font-normal text-center text-lg font-bold"
+              >
+                Do you prefer interactive learning platforms, such as coding
+                challenges and hands-on exercises?
+              </Typography>
+              <div className="flex gap-10">
+                <Radio
+                  name="interLearning"
+                  label="Yes"
+                  checked={interLearning === "Yes"}
+                  onChange={() => setInterLearning("Yes")}
+                />
+                <Radio
+                  name="interLearning"
+                  label="No"
+                  checked={interLearning === "No"}
+                  onChange={() => setInterLearning("No")}
+                />
+              </div>
+
+              <Button
+                className="mt-3 bg-black w-max h-12 text-white py-1 px-8 rounded-md center"
+                fullWidth
+                onClick={handleSubmitQuesForm}
+              >
+                Submit my Answers
+              </Button>
+            </form>
+          </Card>
+        </div>
+
+        {/* lesson container */}
       </section>
     </div>
   );
