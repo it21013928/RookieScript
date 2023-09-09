@@ -16,10 +16,10 @@ const customStyles = {
     alignItems: "center",
   },
   form: {
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
   },
   submitButton: {
     backgroundColor: "#007bff",
@@ -77,7 +77,7 @@ function WorkspaceComponent() {
   }, []);
 
   return (
-    <div>
+    <div style={{ minHeight: "25em" }}>
       <div className="grid grid-cols-4 gap-10">
         <div
           className="grid-item border p-4 bg-gray-500 text-center text-gray-800 cursor-pointer"
