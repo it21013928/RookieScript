@@ -11,7 +11,7 @@ import $ from "jquery";
 import Grid from "@mui/material/Grid";
 import { Grow } from "@mui/material";
 import { Bubblegum_Sans } from "next/font/google";
-import { useRouter } from "next/navigation";
+
 import prettier from "prettier";
 import { OpenAI } from "langchain/llms/openai";
 import { PromptTemplate } from "langchain/prompts";
@@ -19,6 +19,7 @@ import { LLMChain } from "langchain/chains";
 import Modal from "react-modal";
 import { HiOutlineDocumentDuplicate } from "react-icons/hi2";
 import { AiFillCaretRight } from "react-icons/ai";
+import { useRouter } from "next/router";
 
 import beautify from "js-beautify";
 export default function compiler() {
@@ -30,7 +31,7 @@ export default function compiler() {
   const [correctedCode, setCorrectedCode] = useState("");
   const [hint, setHint] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
+  const [currentCode, setCurrentCode] = useState("");
   const [isCopied, setIsCopied] = useState(false);
   useEffect(() => {
     const editor = ace.edit("editor");
@@ -73,7 +74,18 @@ export default function compiler() {
   ];
 
   const editorRef = useRef(null);
+  const router = useRouter();
+  const data = router.query;
+  console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", data.code);
 
+  useEffect(() => {
+    if (data.code) {
+      setCurrentCode(data.code);
+      setSelectedLanguage(data.language);
+    }
+  }, [data]);
+
+  console.log("data", data);
   function changeLanguage(event) {
     const language = event.target.value;
     setSelectedLanguage(language);
@@ -91,6 +103,7 @@ export default function compiler() {
 
   function executeCode() {
     setIsLoading(true);
+    setCurrentCode(ace.edit("editor").getSession().getValue());
     $.ajax({
       url: "http://localhost/RookieScriptCompiler/app/compiler.php",
       method: "POST",
@@ -133,7 +146,7 @@ export default function compiler() {
   const snedOpenAI = async () => {
     setIsLoading(true);
     openai = new OpenAI({
-      openAIApiKey: "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",
+      openAIApiKey: "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",
       temperature: 0.8,
     });
     const template =
@@ -434,7 +447,7 @@ export default function compiler() {
             theme={editorTheme}
             name="editor"
             editorProps={{ $blockScrolling: true }}
-            // value={output} // Set the value of the AceEditor to the code
+            value={currentCode} // Set the value of the AceEditor to the code
             readOnly={false} // Allow editing
             showPrintMargin={false}
           />
