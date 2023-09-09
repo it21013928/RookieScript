@@ -21,10 +21,12 @@ app.use(cors());
 const lessonRoutes = require("./src/routes/lessonRoutes");
 const workspaceRoutes = require("./src/routes/workspaceRoutes");
 const questionRoutes = require("./src/routes/questionRoutes");
+const codeRoutes = require("./src/routes/codeRoutes");
 
 //Use routes
 app.use("/api/lesson", lessonRoutes);
 app.use("/api/workspace", workspaceRoutes);
+app.use("/api/code", codeRoutes);
 app.use("/api/question", questionRoutes);
 
 //Connect to MongoDB
