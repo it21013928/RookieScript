@@ -2,14 +2,16 @@ import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { MdOutlineDeleteForever } from "react-icons/md";
+import { GrAddCircle } from "react-icons/gr";
+import Modal from "react-modal";
 
 function CodesComponent() {
   const [codes, setCodes] = useState([]);
+  const [selectedCode, setSelectedCode] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const router = useRouter();
-
-  // const [workspace, setWorkspace] = useState("");
-
-  // const workspace = router.query;
 
   useEffect(() => {
     const fetchCodes = async () => {
@@ -28,6 +30,26 @@ function CodesComponent() {
     }
   }, [router.query.workspacename]);
 
+  const handleDelete = async () => {
+    try {
+      await Axios.delete(`http://localhost:7000/api/code/${selectedCode._id}`);
+      setCodes(codes.filter((code) => code._id !== selectedCode._id));
+      setIsModalOpen(false);
+    } catch (error) {
+      console.error("Error deleting code:", error);
+    }
+  };
+
+  const openModal = (code) => {
+    setSelectedCode(code);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setSelectedCode(null);
+    setIsModalOpen(false);
+  };
+
   return (
     <div>
       <div className="text-center">
@@ -42,27 +64,76 @@ function CodesComponent() {
             query: { workspacename: router.query.workspacename },
           }}
         >
-          <div className="grid-item border p-4 bg-gray-500 text-center text-gray-800 cursor-pointer">
-            Write a new code
+          <div>
+            <div
+              className="grid-item border p-4 bg-gray-500 text-gray-800 cursor-pointer"
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <div style={{ marginBottom: "8px" }}>Write a new code</div>
+              <GrAddCircle />
+            </div>
           </div>
         </Link>
         {codes.map((code, index) => (
-          <Link
-            href={{
-              pathname: "/compiler",
-              query: { code: code.code, language: code.language }, // the data
+          <div
+            className="grid-item border p-4 bg-gray-200 text-gray-800 cursor-pointer"
+            key={index}
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
             }}
           >
-            <div
-              className="grid-item border p-4 bg-gray-200 text-center text-gray-800 cursor-pointer"
-              key={index}
-              // onClick={() => alert(code.name)}
+            <Link
+              href={{
+                pathname: "/compiler",
+                query: { code: code.code, language: code.language },
+              }}
             >
-              {code.name}
-            </div>
-          </Link>
+              <div style={{ marginBottom: "8px" }}>{code.name}</div>
+            </Link>
+            <MdOutlineDeleteForever onClick={() => openModal(code)} />
+          </div>
         ))}
       </div>
+
+      <Modal
+        isOpen={isModalOpen}
+        onRequestClose={closeModal}
+        contentLabel="Delete Code Modal"
+        style={{
+          content: {
+            top: "50%",
+            left: "50%",
+            right: "auto",
+            bottom: "auto",
+            marginRight: "-50%",
+            transform: "translate(-50%, -50%)",
+            maxWidth: "300px",
+            width: "100%",
+          },
+        }}
+      >
+        <h2 className="text-center mb-4">Confirm Deletion</h2>
+        <div className="flex justify-center mb-4">
+          <button
+            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 mr-2 rounded"
+            onClick={handleDelete}
+          >
+            Yes
+          </button>
+          <button
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            onClick={closeModal}
+          >
+            No
+          </button>
+        </div>
+      </Modal>
     </div>
   );
 }
