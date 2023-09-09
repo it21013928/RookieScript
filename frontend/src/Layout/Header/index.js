@@ -87,33 +87,6 @@ function Header() {
           </div>
         </nav>
       </div>{" "}
-      <section class="section ">
-        <div class="v">
-          <div class="flex justify-center pt-10 ">
-            <div class="w-full filters-group-wrap mb-3">
-              <div class="flex justify-center mb-5">
-                <ul class="filter-options flex flex-wrap gap-4 justify-center">
-                  <li class="active" data-group="all">
-                    <a href="javascript:void(0)">All</a>
-                  </li>
-                  <li data-group="android">
-                    <a href="javascript:void(0)">Android</a>
-                  </li>
-                  <li data-group="mockup">
-                    <a href="javascript:void(0)">Mockup</a>
-                  </li>
-                  <li data-group="personal">
-                    <a href="javascript:void(0)">Web</a>
-                  </li>
-                  <li data-group="design">
-                    <a href="javascript:void(0)">Design</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
     </>
   );
 }
