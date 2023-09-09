@@ -9,19 +9,19 @@ const {
   deleteWorkspace,
 } = require("../controllers/workspaceController");
 
-//Create a lesson
+//Create a workspace
 router.post("/", createWorkspace);
 
-//Get all lessons
+//Get all workspace
 router.get("/", getAllWorkspaces);
 
-//Get lesson by id
+//Get workspace by id
 router.get("/:id", getWorkspaceById);
 
-//Update a lesson
+//Update a workspace
 router.patch("/:id", updateWorkspace);
 
-//Delete a lesson
+//Delete a workspace
 router.delete("/:id", deleteWorkspace);
 
 module.exports = router;
