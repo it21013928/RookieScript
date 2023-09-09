@@ -1,3 +1,18 @@
+////////////////////////////////Sahan/////////////////////////////////////////////
+
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import Modals from "@mui/material/Modal";
+import TextField from "@mui/material/TextField";
+import SearchIcon from "@mui/icons-material/Search";
+import CssBaseline from "@mui/material/CssBaseline";
+import Container from "@mui/material/Container";
+import Paper from "@mui/material/Paper";
+import FileCopyIcon from "@mui/icons-material/FileCopy"; // Import the copy icon
+import CopyToClipboard from "react-copy-to-clipboard";
+
+///////////////////////////////////////////////////////////////////////////////////
 import React from "react";
 import { useEffect, useState, useRef } from "react";
 import AceEditor from "react-ace";
@@ -322,6 +337,76 @@ export default function compiler() {
       // Optionally, you can provide user feedback (e.g., a tooltip) that the copy was successful
     }
   };
+
+  /////////////////////////////////////sahan//////////////////////////////////////////
+  //Modal sahan//////////////////
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+
+  const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    const handleSearch = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:7000/api/codeSnippets/search?keyword=${searchQuery}`
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setSearchResults(data);
+        } else {
+          console.error("Failed to fetch data");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
+    // Call handleSearch whenever searchQuery changes
+    if (searchQuery !== "") {
+      handleSearch();
+    } else {
+      // Clear searchResults if the search query is empty
+      setSearchResults([]);
+    }
+  }, [searchQuery]);
+
+  const handleCopy = () => {
+    setCopied(true);
+    // You can handle the copy action here if needed
+  };
+
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 600,
+    maxHeight: "80vh", // Set a maximum height for the modal
+    overflow: "auto", // Enable scrolling when content exceeds the maximum height
+    bgcolor: "background.paper",
+    border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
+  };
+
+  const cardStyle = {
+    maxHeight: "200px", // Adjust the maximum height as needed
+    overflow: "auto", // Enable scrolling when content exceeds the maximum height
+    padding: "16px",
+    position: "relative",
+  };
+
+  const copyIconStyle = {
+    position: "absolute",
+    top: "8px", // Adjust the top and right values for icon placement
+    right: "8px",
+    cursor: "pointer",
+  };
   return (
     <div>
       <Modal
@@ -346,6 +431,7 @@ export default function compiler() {
           <button
             className="mt-4  text-white-800 py-1 px-8 self-center border border-gray-800 text-white"
             style={{ backgroundColor: "green", marginBottom: "1em" }}
+            onClick={handleOpen}
           >
             Code Generator
           </button>
@@ -561,6 +647,50 @@ export default function compiler() {
       >
         Some text
       </Link> */}
+      {open && (
+        <Modals
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            <TextField
+              placeholder="Type what you want here..."
+              fullWidth
+              variant="outlined"
+              InputProps={{
+                startAdornment: <SearchIcon sx={{ color: "gray" }} />,
+              }}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            {/*<button onClick={handleSearch}>Search</button>*/}
+
+            {searchResults.map((result) => (
+              <div key={result.id}>
+                <Typography id="modal-modal-title" variant="h6" component="h2">
+                  <h2>{result.title}</h2>
+                </Typography>
+
+                <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                  <p>{result.description}</p>
+                </Typography>
+
+                <Paper sx={cardStyle}>
+                  <CopyToClipboard text={result.code} onCopy={handleCopy}>
+                    <FileCopyIcon
+                      sx={copyIconStyle}
+                      color={copied ? "primary" : "action"}
+                    />
+                  </CopyToClipboard>
+                  <div>{result.code}</div>
+                </Paper>
+              </div>
+            ))}
+          </Box>
+        </Modals>
+      )}
     </div>
   );
 }
