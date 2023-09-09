@@ -65,6 +65,21 @@ const getQuestionById = async (req, res) => {
   }
 };
 
+//Get Question by type
+// const getQuestionByType = async (req, res) => {
+//   try {
+//     const Question = await Question.findById(req.params.id);
+//     if (!Question) {
+//       return res.status(404).json({ message: "Question not found" });
+//     } else {
+//       res.status(200).json(Question);
+//     }
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ message: "Server error" });
+//   }
+// };
+
 //Update a Question
 const updateQuestion = async (req, res) => {
   try {

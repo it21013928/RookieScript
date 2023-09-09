@@ -20,10 +20,12 @@ app.use(cors());
 //Import Routes
 const lessonRoutes = require("./src/routes/lessonRoutes");
 const workspaceRoutes = require("./src/routes/workspaceRoutes");
+const questionRoutes = require("./src/routes/questionRoutes");
 
 //Use routes
 app.use("/api/lesson", lessonRoutes);
 app.use("/api/workspace", workspaceRoutes);
+app.use("/api/question", questionRoutes);
 
 //Connect to MongoDB
 mongoose
