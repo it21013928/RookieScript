@@ -23,12 +23,14 @@ const workspaceRoutes = require("./src/routes/workspaceRoutes");
 const questionRoutes = require("./src/routes/questionRoutes");
 const codeRoutes = require("./src/routes/codeRoutes");
 const codeSnippetRoutes = require("./src/routes/codeSnippetRoutes");
+
 //Use routes
 app.use("/api/lesson", lessonRoutes);
 app.use("/api/workspace", workspaceRoutes);
 app.use("/api/code", codeRoutes);
 app.use("/api/question", questionRoutes);
 app.use("/api/codeSnippets", codeSnippetRoutes);
+
 //Connect to MongoDB
 mongoose
   .connect(process.env.MONGODB_URI, {

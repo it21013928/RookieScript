@@ -117,7 +117,7 @@ export default function compiler() {
   console.log(typeof output);
 
   function executeCode() {
-    setIsLoading(true);
+    //setIsLoading(true);
     setCurrentCode(ace.edit("editor").getSession().getValue());
     $.ajax({
       url: "http://localhost/RookieScriptCompiler/app/compiler.php",
@@ -161,7 +161,8 @@ export default function compiler() {
   const snedOpenAI = async () => {
     setIsLoading(true);
     openai = new OpenAI({
-      openAIApiKey: "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",
+      //openAIApiKey: "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",
+      openAIApiKey: "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",
       temperature: 0.8,
     });
     const template =
