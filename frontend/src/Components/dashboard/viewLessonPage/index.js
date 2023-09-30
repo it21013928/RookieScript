@@ -82,10 +82,14 @@ function lessonPage() {
 
   //Update form modal
   const [openUpdateModal, setOpenUpdateModal] = React.useState(false);
-  const handleUpdateModalOpen = () => {
-    const itemToUpdate = lessons.filter((item) => item._id !== currentUpdateId);
-    setCurrentUpdateObject(itemToUpdate);
+  const handleUpdateModalOpen = (id) => {
+    //const itemToUpdate = lessons.filter((item) => item._id === id);
+
+    setCurrentUpdateObject(lessons.filter((item) => item._id === id));
     setOpenUpdateModal(true);
+    // const itemToUpdate = lessons.filter((item) => item._id === currentUpdateId);
+    // setCurrentUpdateObject(itemToUpdate);
+    //setOpenUpdateModal(true);
   };
   const handleUpdateModalClose = () => {
     setOpenUpdateModal(false);
@@ -137,8 +141,9 @@ function lessonPage() {
       renderCell: (params) => (
         <EditIcon
           onClick={() => {
+            console.log("Current Update ID:", params.row.id);
             setCurrentUpdateId(params.row.id);
-            handleUpdateModalOpen();
+            handleUpdateModalOpen(params.row.id);
           }}
           style={{ cursor: "pointer" }}
         />
@@ -159,6 +164,8 @@ function lessonPage() {
       ),
     },
   ];
+
+  console.log("Current Update set ID:", currentUpdateId);
 
   //submit the selected values
   const handleSubmitCreateLesson = async () => {

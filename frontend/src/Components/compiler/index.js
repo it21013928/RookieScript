@@ -117,7 +117,7 @@ export default function compiler() {
   console.log(typeof output);
 
   function executeCode() {
-    setIsLoading(true);
+    //setIsLoading(true);
     setCurrentCode(ace.edit("editor").getSession().getValue());
     $.ajax({
       url: "http://localhost/RookieScriptCompiler/app/compiler.php",
@@ -161,7 +161,8 @@ export default function compiler() {
   const snedOpenAI = async () => {
     setIsLoading(true);
     openai = new OpenAI({
-      openAIApiKey: "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",
+      //openAIApiKey: "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",
+      openAIApiKey: "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",
       temperature: 0.8,
     });
     const template =
@@ -407,6 +408,15 @@ export default function compiler() {
     right: "8px",
     cursor: "pointer",
   };
+
+  const codeStyle = {
+    fontFamily: "monospace", // Use a monospace font
+    whiteSpace: "pre", // Preserve whitespace
+    tabSize: 4, // Set tab size (adjust as needed)
+    lineHeight: "1.2", // Adjust line height as needed
+    // Add any other CSS styles you prefer
+  };
+
   return (
     <div>
       <Modal
@@ -684,7 +694,10 @@ export default function compiler() {
                       color={copied ? "primary" : "action"}
                     />
                   </CopyToClipboard>
-                  <div>{result.code}</div>
+
+                  <pre style={codeStyle}>
+                    <div>{result.code}</div>
+                  </pre>
                 </Paper>
               </div>
             ))}
