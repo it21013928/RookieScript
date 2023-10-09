@@ -161,7 +161,7 @@ export default function compiler() {
   const snedOpenAI = async () => {
     setIsLoading(true);
     openai = new OpenAI({
-      openAIApiKey: "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",
+      openAIApiKey: "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",
       temperature: 0.8,
     });
     const template =
@@ -533,7 +533,7 @@ export default function compiler() {
             theme={editorTheme}
             name="editor"
             editorProps={{ $blockScrolling: true }}
-            value={currentCode} // Set the value of the AceEditor to the code
+            //value={} // Set the value of the AceEditor to the code
             readOnly={false} // Allow editing
             showPrintMargin={false}
           />
