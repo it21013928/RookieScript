@@ -22,18 +22,18 @@ export default function CompilerPage() {
   return (
     <div>
       <Grid container spacing={0}>
-        <Grid item xs={0.5}>
+        <Grid item xs={0.05}>
           {" "}
           {/* <SlideBar expandContent={expandContent} /> */}
         </Grid>
-        <Grid item xs={11}>
+        <Grid item xs={11.9}>
           <Head>{/* Add your head content here */}</Head>
           <Header />
 
           <Compiler />
           <Footer />
         </Grid>
-        <Grid item xs={0.5}>
+        <Grid item xs={0.1}>
           {" "}
           {/* <SlideBar expandContent={expandContent} /> */}
         </Grid>
