@@ -19,7 +19,6 @@
     "@tailwindcss/forms": "^0.5.0",
     "@tailwindcss/typography": "^0.5.2",
     "ace-builds": "^1.24.1",
-    "autoprefixer": "10.4.15",
     "axios": "^1.5.0",
     "fs": "^0.0.1-security",
     "heroicons": "^2.0.18",
@@ -30,7 +29,6 @@
     "mui": "^0.0.1",
     "next": "13.4.19",
     "path": "^0.12.7",
-    "postcss": "8.4.29",
     "react": "18.2.0",
     "react-ace": "^10.1.0",
     "react-copy-to-clipboard": "^5.1.0",
@@ -39,6 +37,10 @@
     "react-modal": "^3.16.1"
   },
   "devDependencies": {
-    "prettier": "^2.4.1"
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.31",
+    "prettier": "^2.4.1",
+    "tailwindcss": "^3.3.3",
+    "vite": "^4.4.11"
   }
 }
