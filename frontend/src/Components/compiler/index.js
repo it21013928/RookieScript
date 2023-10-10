@@ -48,6 +48,8 @@ export default function compiler() {
   const [isLoading, setIsLoading] = useState(false);
   const [currentCode, setCurrentCode] = useState("");
   const [isCopied, setIsCopied] = useState(false);
+  const recievedCode = useRef("");
+  const [isSaved, setIsSaved] = useState(true);
   useEffect(() => {
     const editor = ace.edit("editor");
     editor.setTheme(`ace/theme/${editorTheme}`);
@@ -96,9 +98,19 @@ export default function compiler() {
   useEffect(() => {
     if (data.code) {
       setCurrentCode(data.code);
+      recievedCode.current = data.code;
       setSelectedLanguage(data.language);
     }
   }, [data]);
+
+  useEffect(() => {
+    if (currentCode !== recievedCode.current) {
+      setIsSaved(false);
+    } else {
+      setIsSaved(true);
+    }
+  }, [currentCode]);
+  console.log(currentCode);
 
   console.log("data", data);
   function changeLanguage(event) {
@@ -449,8 +461,20 @@ export default function compiler() {
 
         <Grid item xs={7} style={{ backgroundColor: "#2D2F34", height: "3em" }}>
           <Grid container spacing={0}>
-            <Grid item xs={7.0}>
+            <Grid item xs={5.0}>
               <p className="mt-3 ml-4 text-white">workspace name</p>
+            </Grid>
+            <Grid item xs={2.0}>
+              {!isSaved ? (
+                <>
+                  {" "}
+                  <button className="mt-3 bg-transparent text-white-800 py-1 px-6  self-center border border-white-800 text-white text-sm">
+                    save code
+                  </button>
+                </>
+              ) : (
+                <p></p>
+              )}
             </Grid>
             <Grid item xs={2}>
               <p className="mt-3 text-white">Select language </p>
@@ -464,7 +488,7 @@ export default function compiler() {
                 value={selectedLanguage}
                 onChange={changeLanguage}
               >
-                <option value="python">Python</option>
+                <option value="php">php</option>
                 <option value="java">Java</option>
                 {/* Add more options for other languages as needed */}
               </select>{" "}
@@ -546,6 +570,9 @@ export default function compiler() {
             value={currentCode} // Set the value of the AceEditor to the code
             readOnly={false} // Allow editing
             showPrintMargin={false}
+            onChange={(newCode) => {
+              setCurrentCode(newCode);
+            }}
           />
         </Grid>
         <Grid item xs={5}>
