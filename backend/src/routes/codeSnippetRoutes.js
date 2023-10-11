@@ -5,7 +5,8 @@ const {
     addCodes,
     insertCode,
     getAllCodeSnippets,
-    getCodeSnippetByTag
+    getCodeSnippetByTag,
+    insertCodeSnippet
 } = require("../controllers/codeSnippetsController")
 
 //Add code snippets
@@ -13,6 +14,8 @@ const {
 router.post("/", addCodes);
 
 router.post("/insertCode", insertCode)
+
+router.post("/insertCodeSnippet", insertCodeSnippet)
 
 router.get("/", getAllCodeSnippets)
 

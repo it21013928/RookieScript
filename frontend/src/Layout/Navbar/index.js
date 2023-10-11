@@ -2,7 +2,7 @@ import React from "react";
 import Logo from "../../assets/images/logo/logoSPM.jpg";
 import Image from "next/image";
 
-function Header() {
+function Navbar() {
   return (
     <>
       <div class="flex flex-col">
@@ -91,4 +91,4 @@ function Header() {
   );
 }
 
-export default Header;
+export default Navbar;
