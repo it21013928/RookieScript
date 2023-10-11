@@ -22,6 +22,11 @@ import "ace-builds/src-noconflict/mode-php";
 import "ace-builds/src-noconflict/mode-python";
 import Link from "next/link";
 import "ace-builds/src-noconflict/mode-javascript";
+import "ace-builds/src-noconflict/theme-eclipse";
+import "ace-builds/src-noconflict/theme-chrome";
+import "ace-builds/src-noconflict/theme-xcode";
+
+import "ace-builds/src-noconflict/theme-github";
 import $ from "jquery";
 import Grid from "@mui/material/Grid";
 import { Grow } from "@mui/material";
@@ -40,7 +45,7 @@ import beautify from "js-beautify";
 export default function compiler() {
   const [selectedLanguage, setSelectedLanguage] = useState("python");
   const [output, setOutput] = useState("");
-  const [editorTheme, setEditorTheme] = useState("monokai");
+  const [editorTheme, setEditorTheme] = useState("xcode");
   const [isError, setIsError] = useState(false);
   const [currentError, setCurrentError] = useState("");
   const [correctedCode, setCorrectedCode] = useState("");
@@ -119,7 +124,7 @@ export default function compiler() {
 
     // Define a mapping of languages to themes here
     const languageThemes = {
-      python: "solarized_dark",
+      php: "solarized_dark",
       java: "eclipse", // Change to the desired theme for Java
     };
 
@@ -459,7 +464,14 @@ export default function compiler() {
           </button>
         </Grid>
 
-        <Grid item xs={7} style={{ backgroundColor: "#2D2F34", height: "3em" }}>
+        <Grid
+          item
+          xs={7}
+          style={{
+            backgroundColor: "#2D2F34",
+            height: "3em",
+          }}
+        >
           <Grid container spacing={0}>
             <Grid item xs={5.0}>
               <p className="mt-3 ml-4 text-white">workspace name</p>
@@ -561,14 +573,14 @@ export default function compiler() {
             style={{
               width: "100%",
               height: "calc(100vh - 200px)",
-              fontSize: "18px",
+              fontSize: "16px",
             }}
             mode={selectedLanguage}
-            theme={editorTheme}
+            theme="chrome" // Use the light theme you imported
             name="editor"
-            editorProps={{ $blockScrolling: true }}
-            value={currentCode} // Set the value of the AceEditor to the code
-            readOnly={false} // Allow editing
+            editorProps={{ $blockScrolling: true, fontSize: 22 }} // Adjust fontSize as needed
+            value={currentCode}
+            readOnly={false}
             showPrintMargin={false}
             onChange={(newCode) => {
               setCurrentCode(newCode);
@@ -576,24 +588,53 @@ export default function compiler() {
           />
         </Grid>
         <Grid item xs={5}>
-          <AceEditor
-            style={{
-              width: "100%",
-              height: "calc(100vh - 200px)",
-              fontSize: "15px",
-            }}
-            mode={selectedLanguage}
-            theme={editorTheme}
-            name="editor"
-            editorProps={{ $blockScrolling: true }}
-            value={output} // Set the value of the AceEditor to the code
-            readOnly={true} // Allow editing
-            showGutter={false} // Disable line numbers
-            showPrintMargin={false} // Disable vertical lines
-          />
+          <Grid container spacing={0}>
+            <Grid item xs={12}>
+              <AceEditor
+                style={{
+                  width: "100%",
+                  height: "calc(70vh - 200px)",
+                  fontSize: "15px",
+                }}
+                mode={selectedLanguage}
+                theme={editorTheme}
+                name="editor"
+                editorProps={{ $blockScrolling: true }}
+                value={output} // Set the value of the AceEditor to the code
+                readOnly={true} // Allow editing
+                showGutter={false} // Disable line numbers
+                showPrintMargin={false} // Disable vertical lines
+              />
+            </Grid>
+
+            <Grid
+              item
+              xs={12}
+              style={{ marginTop: "30px", backgroundColor: "#DEE1E6" }}
+            >
+              <Grid container spacing={0}>
+                <Grid item xs={6.0}>
+                  <p className="mt-3 ml-4 text-black">
+                    Humanized Error Notifications
+                  </p>
+                </Grid>
+              </Grid>
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              style={{
+                height: "calc(50vh - 200px)",
+                backgroundColor: "white",
+                padding: "30px",
+              }}
+            >
+              {hint ? <i>{hint}</i> : <i>No errors were found...</i>}
+            </Grid>
+          </Grid>
         </Grid>
 
-        {correctedCode ? (
+        {true ? (
           <>
             {" "}
             <Grid
