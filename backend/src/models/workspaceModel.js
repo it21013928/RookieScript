@@ -5,8 +5,10 @@ const workspaceSchema = new Schema({
   name: {
     type: String,
     required: true,
-    unique: true
-  }
+  },
+  user: {
+    type: String,
+  },
 });
 
 // export user model

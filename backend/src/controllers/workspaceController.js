@@ -3,7 +3,7 @@ const Workspace = require("../models/workspaceModel");
 //Create Workspaces
 const createWorkspace = async (req, res) => {
   try {
-    const { name } = req.body;
+    const { name, user } = req.body;
 
     //check title, description, xpLevel, language is empty
     if (!name) {
@@ -20,12 +20,12 @@ const createWorkspace = async (req, res) => {
 
     //create new Workspace
     const newWorkspace = new Workspace({
-      name,
+      name, user
     });
     await newWorkspace.save();
 
     res.status(200).json({
-      name,
+      name, user
     });
   } catch (err) {
     console.error(err);
@@ -35,8 +35,9 @@ const createWorkspace = async (req, res) => {
 
 //Get all Workspaces
 const getAllWorkspaces = async (req, res) => {
+  const userId = req.params.userId;
   try {
-    const Workspaces = await Workspace.find();
+    const Workspaces = await Workspace.find({ user: userId });
     if (!Workspaces) {
       return res.status(404).json({ message: "Workspaces not found" });
     } else {

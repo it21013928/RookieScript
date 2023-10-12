@@ -9,7 +9,6 @@ const codeSchema = new Schema({
   workspace: {
     type: String,
     required: true,
-    default: "Default",
   },
   code: {
     type: String,
@@ -18,10 +17,7 @@ const codeSchema = new Schema({
   language: {
     type: String,
     required: true,
-  },
-  user: {
-    type: String,
-  },
+  }
 });
 
 // export code model

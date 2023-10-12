@@ -14,7 +14,7 @@ const {
 router.post("/", createCode);
 
 //Get all codes
-router.get("/", getAllCodes);
+router.get("/:workspaceId", getAllCodes);
 
 //Get code by workspace name
 router.get("/workspace/:workspaceName", getCodesByWorkspaceName);
@@ -23,7 +23,7 @@ router.get("/workspace/:workspaceName", getCodesByWorkspaceName);
 router.get("/:id", getCodeById);
 
 //Update a code
-router.patch("/:id", updateCode);
+router.patch("/update/:id", updateCode);
 
 //Delete a code
 router.delete("/:id", deleteCode);

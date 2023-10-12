@@ -17,7 +17,7 @@ function CodesComponent() {
     const fetchCodes = async () => {
       try {
         const response = await Axios.get(
-          `http://localhost:7000/api/code/workspace/${router.query.workspacename}`
+          `http://localhost:7000/api/code/${router.query.workspaceId}`
         );
         setCodes(response.data);
       } catch (error) {
@@ -25,10 +25,10 @@ function CodesComponent() {
       }
     };
 
-    if (router.query.workspacename) {
+    if (router.query.workspaceId) {
       fetchCodes();
     }
-  }, [router.query.workspacename]);
+  }, [router.query.workspaceId]);
 
   const handleDelete = async () => {
     try {
@@ -61,7 +61,7 @@ function CodesComponent() {
         <Link
           href={{
             pathname: "/compiler",
-            query: { workspacename: router.query.workspacename },
+            query: { codeId:"" , workspacename: router.query.workspacename, workspaceId: router.query.workspaceId },
           }}
         >
           <div>
@@ -91,7 +91,7 @@ function CodesComponent() {
             <Link
               href={{
                 pathname: "/compiler",
-                query: { code: code.code, language: code.language },
+                query: { codeId: code._id, code: code.code, language: code.language, workspaceId: router.query.workspaceId},
               }}
             >
               <div style={{ marginBottom: "8px" }}>{code.name}</div>
