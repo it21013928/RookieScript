@@ -4,6 +4,7 @@ const router = express.Router();
 const {
   createLesson,
   getAllLessons,
+  getLessonsByCreatorId,
   getLessonById,
   getLessonsByXpLevel,
   getLessonsByLanguage,
@@ -15,11 +16,16 @@ const {
   deleteLesson,
 } = require("../controllers/lessonController");
 
+const { authenticateUserMiddleware } = require("../middleware/auth");
+
 //Create a lesson
 router.post("/", createLesson);
 
 //Get all lessons
 router.get("/", getAllLessons);
+
+//Get all lessons by ID
+router.get("/creator/:creatorId", getLessonsByCreatorId);
 
 //Get lesson by id
 router.get("/id/:id", getLessonById);

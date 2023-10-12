@@ -236,7 +236,7 @@ export default function compiler() {
                 currentErrorRef.current = extractedString;
                 console.log("Extracted String:", extractedString);
                 requestCorrectCode();
-                requestExplanation();
+
                 setOutput(extractedString);
               }
             } else {
@@ -275,7 +275,7 @@ export default function compiler() {
     // setIsLoading(true);
     openai = new OpenAI({
       //openAIApiKey: "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",
-      openAIApiKey: "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",
+      openAIApiKey: "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",
       temperature: 0.8,
     });
     const template =
@@ -336,7 +336,7 @@ export default function compiler() {
     // setIsLoading(true);
     openai = new OpenAI({
       //openAIApiKey: "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",
-      openAIApiKey: "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",
+      openAIApiKey: "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",
       temperature: 0.8,
     });
     const template =
@@ -365,15 +365,14 @@ export default function compiler() {
     });
     setCorrectedCode(formattedCode);
     console.log("BBBBBBBBBBBBBBBBBBBBBBBBB", formattedCode);
-
-    setIsLoading(false);
+    requestExplanation();
   };
 
   const requestExplanation = async () => {
     // setIsLoading(true);
     openai = new OpenAI({
       //openAIApiKey: "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",
-      openAIApiKey: "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",
+      openAIApiKey: "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",
       temperature: 0.8,
     });
     const template =
@@ -412,7 +411,7 @@ export default function compiler() {
     setIsEveluating(true);
     openai = new OpenAI({
       //openAIApiKey: "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",
-      openAIApiKey: "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",
+      openAIApiKey: "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",
       temperature: 0.8,
     });
     const template =

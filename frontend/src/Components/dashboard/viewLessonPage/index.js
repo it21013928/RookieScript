@@ -13,6 +13,7 @@ import MenuItem from "@mui/material/MenuItem";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Spinner } from "@material-tailwind/react";
+import Axioss from "@/api/Axioss";
 
 // modal
 const style = {
@@ -39,6 +40,7 @@ function lessonPage() {
   const [videoList, setVideoList] = React.useState("");
   const [articleList, setArticleList] = React.useState("");
   const [quizList, setQuizList] = React.useState("");
+  const [creatorId, setCreatorId] = React.useState("");
 
   let [uTitle, setUTitle] = React.useState("");
   let [uDescription, setUDescription] = React.useState("");
@@ -62,7 +64,7 @@ function lessonPage() {
   const [languageError, setLanguageError] = React.useState("");
   const [lessonOrderError, setLessonOrderError] = React.useState("");
   const [categoryError, setCategoryError] = React.useState("");
-
+  const [userData, setUserData] = useState({ user: {} });
   // uTitle = currentUpdateObject[0].title;
   // uDescription = currentUpdateObject[0].description;
   // uXpLevel = currentUpdateObject[0].xpLevel;
@@ -130,24 +132,37 @@ function lessonPage() {
   };
 
   //fetch all lessons
-  const fetchLessons = async () => {
-    const response = await Axios.get("http://localhost:7000/api/lesson/");
-    setLessons(response.data);
-
-    // Transform the response data into the desired format
-    const lessonsFormatted = response.data.map((lesson) => ({
-      id: lesson._id,
-      title: lesson.title,
-      description: lesson.description,
-      category: lesson.category,
-      xpLevel: lesson.xpLevel,
-      language: lesson.language,
-    }));
-    setFormattedLessons(lessonsFormatted);
-  };
+  const fetchLessons = async () => {};
 
   useEffect(() => {
-    fetchLessons();
+    Axioss.get("api/user/getUserProfile")
+      .then(async (res) => {
+        console.log(
+          "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          res.data.user._id
+        );
+        const response = await Axioss.get(
+          `http://localhost:7000/api/lesson/creator/${res.data.user._id}`
+        );
+
+        setLessons(response.data);
+
+        // Transform the response data into the desired format
+        const lessonsFormatted = response.data.map((lesson) => ({
+          id: lesson._id,
+          title: lesson.title,
+          description: lesson.description,
+          category: lesson.category,
+          xpLevel: lesson.xpLevel,
+          language: lesson.language,
+        }));
+        setFormattedLessons(lessonsFormatted);
+        console.log(response.data); // Access the response data here
+        setUserData(res.data);
+      })
+      .catch((error) => {
+        console.error(error); // Handle any errors here
+      });
   }, []);
 
   console.log("Lessons:", lessons);
@@ -239,6 +254,7 @@ function lessonPage() {
       videoList: videoArray,
       articleList: articleArray,
       quizList: quizArray,
+      creatorId: userData.user._id,
     });
 
     // if (title.length < 3) {
