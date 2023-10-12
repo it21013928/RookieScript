@@ -82,6 +82,16 @@ function Header() {
                     Contact
                   </div>
                 </li>
+
+                {/* <li>
+                  <a
+                    class="lg:px-6 outlineoutline-black font-medium font-secondary block text-black/70 hover:text-blue-500 p-3 uppercase text-sm"
+                    href="/dashboard/viewLesson"
+                    title="ViewLesson"
+                  >
+                    Dashboard
+                  </a>
+                </li> */}
               </ul>
             </div>
           </div>
