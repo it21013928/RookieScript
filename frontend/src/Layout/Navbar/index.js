@@ -30,7 +30,7 @@ function Navbar() {
               >
                 <li>
                   <a
-                    class="lg:px-6 font-medium font-secondary block text-blue-500 p-3 uppercase text-sm"
+                    class="lg:px-6 font-medium font-secondary block text-black/70 hover:text-blue-500 p-3 uppercase text-sm"
                     href="index.html"
                     title="Home"
                   >

@@ -34,15 +34,44 @@ function lessonPage() {
   const [description, setDescription] = React.useState("");
   const [xpLevel, setXpLevel] = React.useState("");
   const [language, setLanguage] = React.useState("");
+  const [lessonOrder, setLessonOrder] = React.useState("");
+  const [category, setCategory] = React.useState("");
   const [videoList, setVideoList] = React.useState("");
   const [articleList, setArticleList] = React.useState("");
   const [quizList, setQuizList] = React.useState("");
+
+  let [uTitle, setUTitle] = React.useState("");
+  let [uDescription, setUDescription] = React.useState("");
+  let [uXpLevel, setUXpLevel] = React.useState("");
+  let [uLanguage, setULanguage] = React.useState("");
+  let [uLessonOrder, setULessonOrder] = React.useState("");
+  let [uCategory, setUCategory] = React.useState("");
+  let [uVideoList, setUVideoList] = React.useState("");
+  let [uArticleList, setUArticleList] = React.useState("");
+  let [uQuizList, setUQuizList] = React.useState("");
 
   const [lessons, setLessons] = useState(null);
   const [formattedLessons, setFormattedLessons] = React.useState(null);
   const [currentDeleteId, setCurrentDeleteId] = React.useState("");
   const [currentUpdateId, setCurrentUpdateId] = React.useState("");
   const [currentUpdateObject, setCurrentUpdateObject] = React.useState("");
+
+  const [titleError, setTitleError] = React.useState("");
+  const [descriptionError, setDescriptionError] = React.useState("");
+  const [xpLevelError, setXpLevelError] = React.useState("");
+  const [languageError, setLanguageError] = React.useState("");
+  const [lessonOrderError, setLessonOrderError] = React.useState("");
+  const [categoryError, setCategoryError] = React.useState("");
+
+  // uTitle = currentUpdateObject[0].title;
+  // uDescription = currentUpdateObject[0].description;
+  // uXpLevel = currentUpdateObject[0].xpLevel;
+  // uLanguage = currentUpdateObject[0].language;
+  // uLessonOrder = currentUpdateObject[0].lessonOrder;
+  // uCategory = currentUpdateObject[0].category;
+  // uVideoList = currentUpdateObject[0].videoList;
+  // uArticleList = currentUpdateObject[0].articleList;
+  // uQuizList = currentUpdateObject[0].quizList;
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => {
@@ -83,13 +112,8 @@ function lessonPage() {
   //Update form modal
   const [openUpdateModal, setOpenUpdateModal] = React.useState(false);
   const handleUpdateModalOpen = (id) => {
-    //const itemToUpdate = lessons.filter((item) => item._id === id);
-
     setCurrentUpdateObject(lessons.filter((item) => item._id === id));
     setOpenUpdateModal(true);
-    // const itemToUpdate = lessons.filter((item) => item._id === currentUpdateId);
-    // setCurrentUpdateObject(itemToUpdate);
-    //setOpenUpdateModal(true);
   };
   const handleUpdateModalClose = () => {
     setOpenUpdateModal(false);
@@ -115,6 +139,7 @@ function lessonPage() {
       id: lesson._id,
       title: lesson.title,
       description: lesson.description,
+      category: lesson.category,
       xpLevel: lesson.xpLevel,
       language: lesson.language,
     }));
@@ -131,7 +156,8 @@ function lessonPage() {
   //table columns
   const columns = [
     { field: "title", headerName: "Title", width: 200 },
-    { field: "description", headerName: "Description", width: 400 },
+    { field: "description", headerName: "Description", width: 200 },
+    { field: "category", headerName: "Category", width: 200 },
     { field: "xpLevel", headerName: "Experience Level", width: 200 },
     { field: "language", headerName: "Language", width: 150 },
     {
@@ -173,6 +199,8 @@ function lessonPage() {
     console.log("Description:", description);
     console.log("Experience Level:", xpLevel);
     console.log("Language:", language);
+    console.log("Category:", category);
+    console.log("Lesson Order:", lessonOrder);
     console.log("Video Links:", videoList);
     console.log("Article Links:", articleList);
     console.log("Quiz Links:", quizList);
@@ -181,17 +209,59 @@ function lessonPage() {
     const articleArray = articleList.split(",").map((value) => value.trim());
     const quizArray = quizList.split(",").map((value) => value.trim());
 
+    if (title.length < 3) {
+      setTitleError("Title must be at least 3 characters long.");
+      return;
+    }
+
+    if (description.length < 10) {
+      setDescriptionError("Description must be at least 10 characters long.");
+      return;
+    }
+
+    if (isNaN(lessonOrder) || lessonOrder < 1) {
+      setLessonOrderError("Please enter a valid number");
+    }
+
+    if (!xpLevel) {
+      setXpLevelError("Please select an experience level.");
+      alert("Please select an experience level.");
+      return;
+    }
+
     Axios.post("http://localhost:7000/api/lesson/", {
       title: title,
       description: description,
       xpLevel: xpLevel,
       language: language,
+      category: category,
+      lessonOrder: lessonOrder,
       videoList: videoArray,
       articleList: articleArray,
       quizList: quizArray,
     });
 
-    if (title) {
+    // if (title.length < 3) {
+    //   setTitleError("Title must be at least 3 characters long.");
+    //   return;
+    // }
+
+    // if (description.length < 10) {
+    //   setDescriptionError("Description must be at least 10 characters long.");
+    //   return;
+    // }
+
+    // if (isNaN(lessonOrder) || lessonOrder < 1) {
+    //   setLessonOrderError("Please enter a valid number");
+    // }
+
+    // if (!xpLevel) {
+    //   setXpLevelError("Please select an experience level.");
+    //   alert("Please select an experience level.");
+    //   return;
+    // }
+
+    if (true) {
       handleClose();
       handleSuccessModalOpen();
     }
@@ -207,34 +277,82 @@ function lessonPage() {
 
   //Update a lesson
   const handleUpdate = async () => {
-    console.log("Title:", title);
-    console.log("Description:", description);
-    console.log("Experience Level:", xpLevel);
-    console.log("Language:", language);
-    console.log("Video Links:", videoList);
-    console.log("Article Links:", articleList);
-    console.log("Quiz Links:", quizList);
+    // console.log("Title:", title);
+    // console.log("Description:", description);
+    // console.log("Experience Level:", xpLevel);
+    // console.log("Language:", language);
+    // console.log("Lesson Order:", lessonOrder);
+    // console.log("Video Links:", videoList);
+    // console.log("Article Links:", articleList);
+    // console.log("Quiz Links:", quizList);
 
     const videoArray = videoList.split(",").map((value) => value.trim());
     const articleArray = articleList.split(",").map((value) => value.trim());
     const quizArray = quizList.split(",").map((value) => value.trim());
+
+    if (!title) {
+      setTitle(currentUpdateObject[0].title);
+    }
+
+    if (!description) {
+      setDescription(currentUpdateObject[0].description);
+    }
+
+    if (!lessonOrder) {
+      setLessonOrder(currentUpdateObject[0].lessonOrder);
+    }
+
+    if (!xpLevel) {
+      setXpLevel(currentUpdateObject[0].xpLevel);
+    }
+
+    if (!language) {
+      setLanguage(currentUpdateObject[0].language);
+    }
+
+    if (!category) {
+      setCategory(currentUpdateObject[0].category);
+    }
+
+    if (videoList.length < 0) {
+      setVideoList(currentUpdateObject[0].videoList);
+    }
+
+    if (videoList.length < 0) {
+      setArticleList(currentUpdateObject[0].articleList);
+    }
+
+    if (videoList.length < 0) {
+      setQuizList(currentUpdateObject[0].quizList);
+    }
 
     Axios.patch(`http://localhost:7000/api/lesson/${currentUpdateId}`, {
       title: title,
       description: description,
       xpLevel: xpLevel,
       language: language,
+      lessonOrder: lessonOrder,
       videoList: videoArray,
       articleList: articleArray,
       quizList: quizArray,
     });
 
-    if (title) {
+    if (true) {
       handleUpdateModalClose();
       handleUpdateConfirmModalClose();
       handleUpdateSuccessModalOpen();
     }
   };
+
+  // console.log("Title", uTitle);
+  // console.log("Description", uDescription);
+  // console.log("Experience Level", uXpLevel);
+  // console.log("Language", uLanguage);
+  // console.log("Lesson Order", uLessonOrder);
+  // console.log("Category", uCategory);
+  //console.log("Video Links", currentUpdateObject[0].videoList);
+  // console.log("Article Links", uArticleList);
+  // console.log("Quiz Links", uQuizList);
 
   return (
     <div className=" pb-40">
@@ -289,112 +407,229 @@ function lessonPage() {
                   aria-labelledby="parent-modal-title"
                   aria-describedby="parent-modal-description"
                 >
-                  <Box sx={{ ...style, width: 400 }}>
-                    <h2
-                      className="text-3xl font-semibold leading-[70px] tracking-wide text-transparent bg-clip-text bg-gradient-to-l from-pink-400 to-blue-600"
-                      id="parent-modal-title"
-                    >
-                      Update a lesson
-                    </h2>
-                    <p id="parent-modal-description">
-                      Fill out the form to update the lesson.
-                    </p>
-                    <form className="mt-2 mb-2 max-w-screen-lg sm:w-150">
-                      <TextField
-                        defaultValue={currentUpdateObject[0].title}
-                        label="Title"
-                        fullWidth
-                        margin="normal"
-                        variant="outlined"
-                        onChange={(event) => setTitle(event.target.value)}
-                      />
-
-                      <TextField
-                        defaultValue={currentUpdateObject[0].description}
-                        label="Description"
-                        fullWidth
-                        margin="normal"
-                        variant="outlined"
-                        onChange={(event) => setDescription(event.target.value)}
-                      />
-                      <FormControl fullWidth margin="normal" variant="outlined">
-                        <InputLabel id="experience-level-label">
-                          Experience Level
-                        </InputLabel>
-                        <Select
-                          labelId="experience-level-label"
-                          id="experience-level"
-                          defaultValue={currentUpdateObject[0].xpLevel}
-                          //value={xpLevel}
-                          label="Experience Level"
-                          onChange={(event) => setXpLevel(event.target.value)}
-                        >
-                          <MenuItem value="beginner">Beginner</MenuItem>
-                          <MenuItem value="intermediate">Intermediate</MenuItem>
-                          <MenuItem value="advanced">Advanced</MenuItem>
-                        </Select>
-                      </FormControl>
-
-                      <FormControl fullWidth margin="normal" variant="outlined">
-                        <InputLabel id="language-label">Language</InputLabel>
-                        <Select
-                          labelId="language-label"
-                          id="language"
-                          defaultValue={currentUpdateObject[0].language}
-                          // value={language}
-                          label="Language"
-                          onChange={(event) => setLanguage(event.target.value)}
-                        >
-                          <MenuItem value="java">Java</MenuItem>
-                          <MenuItem value="python">Python</MenuItem>
-                        </Select>
-                      </FormControl>
-
+                  <Box sx={{ ...style, width: 420, height: 650 }}>
+                    <div className="h-full overflow-y-auto">
+                      <h2
+                        className="text-3xl font-semibold leading-[70px] tracking-wide text-transparent bg-clip-text bg-black"
+                        id="parent-modal-title"
+                      >
+                        Update a lesson
+                      </h2>
                       <p id="parent-modal-description">
-                        Add comma seperated values for the following fields.
+                        Fill out the form to update the lesson.
                       </p>
-                      <TextField
-                        defaultValue={currentUpdateObject[0].videoList}
-                        label="Video Links"
-                        fullWidth
-                        margin="normal"
-                        variant="outlined"
-                        onChange={(event) => setVideoList(event.target.value)}
-                      />
+                      <form className="mt-2 mb-2 max-w-screen-lg sm:w-150">
+                        <TextField
+                          defaultValue={currentUpdateObject[0].title}
+                          label="Title"
+                          fullWidth
+                          margin="normal"
+                          variant="outlined"
+                          onChange={(event) => {
+                            const value = event.target.value;
+                            if (value.length < 3) {
+                              setTitleError(
+                                "Title must be at least 3 characters long."
+                              );
+                            } else {
+                              setTitleError("");
+                            }
+                            setTitle(value);
+                          }}
+                          error={!!titleError}
+                          helperText={titleError}
+                        />
 
-                      <TextField
-                        defaultValue={currentUpdateObject[0].articleList}
-                        label="Article Links"
-                        fullWidth
-                        margin="normal"
-                        variant="outlined"
-                        onChange={(event) => setArticleList(event.target.value)}
-                      />
+                        <TextField
+                          defaultValue={currentUpdateObject[0].description}
+                          label="Description"
+                          fullWidth
+                          margin="normal"
+                          variant="outlined"
+                          onChange={(event) => {
+                            const value = event.target.value;
+                            if (value.length < 10) {
+                              setDescriptionError(
+                                "Description must be at least 10 characters long."
+                              );
+                            } else {
+                              setDescriptionError("");
+                            }
+                            setDescription(value);
+                          }}
+                          error={!!descriptionError}
+                          helperText={descriptionError}
+                        />
 
-                      <TextField
-                        defaultValue={currentUpdateObject[0].quizList}
-                        label="Quiz Links"
-                        fullWidth
-                        margin="normal"
-                        variant="outlined"
-                        onChange={(event) => setQuizList(event.target.value)}
-                      />
+                        <TextField
+                          defaultValue={currentUpdateObject[0].lessonOrder}
+                          label="LessonOrder"
+                          fullWidth
+                          margin="normal"
+                          variant="outlined"
+                          onChange={(event) => {
+                            const value = event.target.value;
+                            if (isNaN(value) || value < 1) {
+                              setLessonOrderError(
+                                "Please enter a valid number"
+                              );
+                            } else {
+                              setLessonOrderError("");
+                            }
+                            setLessonOrder(value);
+                          }}
+                          error={!!lessonOrderError}
+                          helperText={lessonOrderError}
+                        />
 
-                      <div className="flex justify-between">
-                        <Button
-                          className="mt-3 hover:bg-blue-800 bg-blue-700 w-max h-12 text-white py-1 px-8 rounded-md"
-                          onClick={handleUpdateModalClose}
+                        <FormControl
+                          fullWidth
+                          margin="normal"
+                          variant="outlined"
                         >
-                          Close
-                        </Button>
-                        <Button
-                          className="mt-3 hover:bg-pink-700 bg-pink-600 w-max h-12 text-white py-1 px-8 rounded-md"
-                          onClick={handleUpdateConfirmModalOpen}
+                          <InputLabel id="experience-level-label">
+                            Experience Level
+                          </InputLabel>
+                          <Select
+                            defaultValue={currentUpdateObject[0].xpLevel}
+                            labelId="experience-level-label"
+                            id="experience-level"
+                            label="Experience Level"
+                            onChange={(event) => {
+                              const value = event.target.value;
+                              if (!value) {
+                                setXpLevelError(
+                                  "Please select an experience level."
+                                );
+                              } else {
+                                setXpLevelError("");
+                              }
+                              setXpLevel(value);
+                            }}
+                            error={!!xpLevelError}
+                            helperText={xpLevelError}
+                          >
+                            <MenuItem value="Beginner">Beginner</MenuItem>
+                            <MenuItem value="Intermediate">
+                              Intermediate
+                            </MenuItem>
+                            <MenuItem value="Advanced">Advanced</MenuItem>
+                          </Select>
+                        </FormControl>
+
+                        <FormControl
+                          fullWidth
+                          margin="normal"
+                          variant="outlined"
                         >
-                          Update
-                        </Button>
-                      </div>
-                    </form>
+                          <InputLabel id="language-label">Language</InputLabel>
+                          <Select
+                            defaultValue={currentUpdateObject[0].language}
+                            labelId="language-label"
+                            id="language"
+                            label="Language"
+                            onChange={(event) =>
+                              setLanguage(event.target.value)
+                            }
+                          >
+                            <MenuItem value="Java">Java</MenuItem>
+                            <MenuItem value="PHP">PHP</MenuItem>
+                          </Select>
+                        </FormControl>
+
+                        {/* {currentUpdateObject[0].language != "" && ( */}
+                        <FormControl
+                          fullWidth
+                          margin="normal"
+                          variant="outlined"
+                        >
+                          <InputLabel id="category-label">Category</InputLabel>
+
+                          {language === "Java" ? (
+                            <Select
+                              defaultValue={currentUpdateObject[0].category}
+                              labelId="category-label"
+                              id="category"
+                              label="Category"
+                              onChange={(event) =>
+                                setCategory(event.target.value)
+                              }
+                            >
+                              <MenuItem value="Fundamentals">
+                                Fundamentals
+                              </MenuItem>
+                              <MenuItem value="Web Frameworks">
+                                Web Frameworks
+                              </MenuItem>
+                              <MenuItem value="JDBC">JDBC</MenuItem>
+                            </Select>
+                          ) : (
+                            <Select
+                              defaultValue={currentUpdateObject[0].category}
+                              labelId="category-label"
+                              id="category"
+                              //value={category}
+                              label="Category"
+                              onChange={(event) =>
+                                setCategory(event.target.value)
+                              }
+                            >
+                              <MenuItem value="PHP Basics">PHP Basics</MenuItem>
+                              <MenuItem value="Frameworks">Frameworks</MenuItem>
+                              <MenuItem value="Profilling">Profilling</MenuItem>
+                            </Select>
+                          )}
+                        </FormControl>
+                        {/* )} */}
+
+                        <p id="parent-modal-description">
+                          Add comma seperated values for the following fields.
+                        </p>
+                        <TextField
+                          defaultValue={currentUpdateObject[0].videoList}
+                          label="Video Links"
+                          fullWidth
+                          margin="normal"
+                          variant="outlined"
+                          onChange={(event) => setVideoList(event.target.value)}
+                        />
+
+                        <TextField
+                          defaultValue={currentUpdateObject[0].articleList}
+                          label="Article Links"
+                          fullWidth
+                          margin="normal"
+                          variant="outlined"
+                          onChange={(event) =>
+                            setArticleList(event.target.value)
+                          }
+                        />
+
+                        <TextField
+                          defaultValue={currentUpdateObject[0].quizList}
+                          label="Quiz Links"
+                          fullWidth
+                          margin="normal"
+                          variant="outlined"
+                          onChange={(event) => setQuizList(event.target.value)}
+                        />
+
+                        <div className="flex justify-between">
+                          <Button
+                            className="mt-3 hover:bg-blue-800 bg-blue-700 w-max h-12 text-white py-1 px-8 rounded-md"
+                            onClick={handleUpdateModalClose}
+                          >
+                            Close
+                          </Button>
+                          <Button
+                            className="mt-3 hover:bg-pink-700 bg-pink-600 w-max h-12 text-white py-1 px-8 rounded-md"
+                            onClick={handleUpdateConfirmModalOpen}
+                          >
+                            Update
+                          </Button>
+                        </div>
+                      </form>
+                    </div>
                   </Box>
                 </Modal>
               </>
@@ -515,105 +750,195 @@ function lessonPage() {
               aria-labelledby="parent-modal-title"
               aria-describedby="parent-modal-description"
             >
-              <Box sx={{ ...style, width: 400 }}>
-                <h2
-                  className="text-3xl font-semibold leading-[70px] tracking-wide text-transparent bg-clip-text bg-gradient-to-l from-pink-400 to-blue-600"
-                  id="parent-modal-title"
-                >
-                  Create a new lesson
-                </h2>
-                <p id="parent-modal-description">
-                  Fill out the form to create a new lesson.
-                </p>
-                <form className="mt-2 mb-2 max-w-screen-lg sm:w-150">
-                  <TextField
-                    label="Title"
-                    fullWidth
-                    margin="normal"
-                    variant="outlined"
-                    onChange={(event) => setTitle(event.target.value)}
-                  />
-
-                  <TextField
-                    label="Description"
-                    fullWidth
-                    margin="normal"
-                    variant="outlined"
-                    onChange={(event) => setDescription(event.target.value)}
-                  />
-                  <FormControl fullWidth margin="normal" variant="outlined">
-                    <InputLabel id="experience-level-label">
-                      Experience Level
-                    </InputLabel>
-                    <Select
-                      labelId="experience-level-label"
-                      id="experience-level"
-                      value={xpLevel}
-                      label="Experience Level"
-                      onChange={(event) => setXpLevel(event.target.value)}
-                    >
-                      <MenuItem value="beginner">Beginner</MenuItem>
-                      <MenuItem value="intermediate">Intermediate</MenuItem>
-                      <MenuItem value="advanced">Advanced</MenuItem>
-                    </Select>
-                  </FormControl>
-
-                  <FormControl fullWidth margin="normal" variant="outlined">
-                    <InputLabel id="language-label">Language</InputLabel>
-                    <Select
-                      labelId="language-label"
-                      id="language"
-                      value={language}
-                      label="Language"
-                      onChange={(event) => setLanguage(event.target.value)}
-                    >
-                      <MenuItem value="java">Java</MenuItem>
-                      <MenuItem value="python">Python</MenuItem>
-                    </Select>
-                  </FormControl>
-
+              <Box sx={{ ...style, width: 420, height: 650 }}>
+                <div className="h-full overflow-y-auto">
+                  <h2
+                    className="text-3xl font-semibold leading-[70px] tracking-wide text-transparent bg-clip-text bg-black"
+                    id="parent-modal-title"
+                  >
+                    Create a new lesson
+                  </h2>
                   <p id="parent-modal-description">
-                    Add comma seperated values for the following fields.
+                    Fill out the form to create a new lesson.
                   </p>
-                  <TextField
-                    label="Video Links"
-                    fullWidth
-                    margin="normal"
-                    variant="outlined"
-                    onChange={(event) => setVideoList(event.target.value)}
-                  />
+                  <form className="mt-2 mb-2 max-w-screen-lg sm:w-150">
+                    <TextField
+                      label="Title"
+                      fullWidth
+                      margin="normal"
+                      variant="outlined"
+                      onChange={(event) => {
+                        const value = event.target.value;
+                        if (value.length < 3) {
+                          setTitleError(
+                            "Title must be at least 3 characters long."
+                          );
+                        } else {
+                          setTitleError("");
+                        }
+                        setTitle(value);
+                      }}
+                      error={!!titleError}
+                      helperText={titleError}
+                    />
 
-                  <TextField
-                    label="Article Links"
-                    fullWidth
-                    margin="normal"
-                    variant="outlined"
-                    onChange={(event) => setArticleList(event.target.value)}
-                  />
+                    <TextField
+                      label="Description"
+                      fullWidth
+                      margin="normal"
+                      variant="outlined"
+                      onChange={(event) => {
+                        const value = event.target.value;
+                        if (value.length < 10) {
+                          setDescriptionError(
+                            "Title must be at least 10 characters long."
+                          );
+                        } else {
+                          setDescriptionError("");
+                        }
+                        setDescription(value);
+                      }}
+                      error={!!descriptionError}
+                      helperText={descriptionError}
+                    />
 
-                  <TextField
-                    label="Quiz Links"
-                    fullWidth
-                    margin="normal"
-                    variant="outlined"
-                    onChange={(event) => setQuizList(event.target.value)}
-                  />
+                    <TextField
+                      type="Number"
+                      label="LessonOrder"
+                      fullWidth
+                      margin="normal"
+                      variant="outlined"
+                      onChange={(event) => {
+                        const value = event.target.value;
+                        if (isNaN(value) || value < 1) {
+                          setLessonOrderError("Please enter a valid number");
+                        } else {
+                          setLessonOrderError("");
+                        }
+                        setLessonOrder(value);
+                      }}
+                      error={!!lessonOrderError}
+                      helperText={lessonOrderError}
+                    />
 
-                  <div className="flex justify-between">
-                    <Button
-                      className="mt-3 hover:bg-blue-800 bg-blue-700 w-max h-12 text-white py-1 px-8 rounded-md"
-                      onClick={handleClose}
-                    >
-                      Close
-                    </Button>
-                    <Button
-                      className="mt-3 hover:bg-pink-700 bg-pink-600 w-max h-12 text-white py-1 px-8 rounded-md"
-                      onClick={handleSubmitCreateLesson}
-                    >
-                      Create
-                    </Button>
-                  </div>
-                </form>
+                    <FormControl fullWidth margin="normal" variant="outlined">
+                      <InputLabel id="experience-level-label">
+                        Experience Level
+                      </InputLabel>
+                      <Select
+                        labelId="experience-level-label"
+                        id="experience-level"
+                        value={xpLevel}
+                        label="Experience Level"
+                        onChange={(event) => {
+                          const value = event.target.value;
+                          if (!value) {
+                            setXpLevelError(
+                              "Please select an experience level."
+                            );
+                          } else {
+                            setXpLevelError("");
+                          }
+                          setXpLevel(value);
+                        }}
+                        error={!!xpLevelError}
+                        helperText={xpLevelError}
+                      >
+                        <MenuItem value="Beginner">Beginner</MenuItem>
+                        <MenuItem value="Intermediate">Intermediate</MenuItem>
+                        <MenuItem value="Advanced">Advanced</MenuItem>
+                      </Select>
+                    </FormControl>
+
+                    <FormControl fullWidth margin="normal" variant="outlined">
+                      <InputLabel id="language-label">Language</InputLabel>
+                      <Select
+                        labelId="language-label"
+                        id="language"
+                        value={language}
+                        label="Language"
+                        onChange={(event) => setLanguage(event.target.value)}
+                      >
+                        <MenuItem value="Java">Java</MenuItem>
+                        <MenuItem value="PHP">PHP</MenuItem>
+                      </Select>
+                    </FormControl>
+
+                    <FormControl fullWidth margin="normal" variant="outlined">
+                      <InputLabel id="category-label">Category</InputLabel>
+
+                      {language === "Java" ? (
+                        <Select
+                          labelId="category-label"
+                          id="category"
+                          value={category}
+                          label="Category"
+                          onChange={(event) => setCategory(event.target.value)}
+                        >
+                          <MenuItem value="Fundamentals">Fundamentals</MenuItem>
+                          <MenuItem value="Web Frameworks">
+                            Web Frameworks
+                          </MenuItem>
+                          <MenuItem value="JDBC">JDBC</MenuItem>
+                        </Select>
+                      ) : (
+                        <Select
+                          labelId="category-label"
+                          id="category"
+                          value={category}
+                          label="Category"
+                          onChange={(event) => setCategory(event.target.value)}
+                        >
+                          <MenuItem value="PHP Basics">PHP Basics</MenuItem>
+                          <MenuItem value="Frameworks">Frameworks</MenuItem>
+                          <MenuItem value="Profilling">Profilling</MenuItem>
+                        </Select>
+                      )}
+                    </FormControl>
+
+                    <p id="parent-modal-description">
+                      Add comma seperated values for the following fields.
+                    </p>
+                    <TextField
+                      label="Video Links"
+                      fullWidth
+                      margin="normal"
+                      variant="outlined"
+                      onChange={(event) => setVideoList(event.target.value)}
+                    />
+
+                    <TextField
+                      label="Article Links"
+                      fullWidth
+                      margin="normal"
+                      variant="outlined"
+                      onChange={(event) => setArticleList(event.target.value)}
+                    />
+
+                    <TextField
+                      label="Quiz Links"
+                      fullWidth
+                      margin="normal"
+                      variant="outlined"
+                      onChange={(event) => setQuizList(event.target.value)}
+                    />
+
+                    <div className="flex justify-between">
+                      <Button
+                        className="mt-3 hover:bg-blue-800 bg-blue-700 w-max h-12 text-white py-1 px-8 rounded-md"
+                        onClick={handleClose}
+                      >
+                        Close
+                      </Button>
+                      <Button
+                        className="mt-3 hover:bg-pink-700 bg-pink-600 w-max h-12 text-white py-1 px-8 rounded-md"
+                        onClick={handleSubmitCreateLesson}
+                      >
+                        Create
+                      </Button>
+                    </div>
+                  </form>
+                </div>
               </Box>
             </Modal>
           </div>
