@@ -1,3 +1,5 @@
+import Axios from "axios";
+
 ////////////////////////////////Sahan/////////////////////////////////////////////
 
 // import Button from "@mui/material/Button";
@@ -590,6 +592,112 @@ export default function compiler() {
     // Add any other CSS styles you prefer
   };
 
+  // -------------------------- Udesh -----------------------------------
+  const [codeId, setCodeId] = useState("");
+  const [selectedWorkspace, setSelectedWorkspace] = useState(""); // State to hold the selected workspace
+  const [codeName, setCodeName] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  useEffect(() => {
+    setCodeId(router.query.codeId);
+    setSelectedWorkspace(router.query.workspaceId);
+    console.log("CodeId" + codeId);
+    console.log("Workspace" + selectedWorkspace);
+  }, []);
+
+  const saveCode = () => {
+    if (codeId === "") {
+      // If either workspace or code name is not selected, show a prompt
+      openModal(); // If codeId is empty, open the modal
+      // Axios.post("http://localhost:7000/api/code", {
+      //   name: codeName,
+      //   workspace: selectedWorkspace,
+      //   code: currentCode,
+      //   language: selectedLanguage,
+      // })
+      //   .then((response) => {
+      //     console.log(response.data);
+      //     setIsSaved(true);
+      //     setCodeId(response.data.codeId);
+      //   })
+      //   .catch((error) => {
+      //     console.error("Error:", error);
+      //   });
+    } else {
+      Axios.patch(`http://localhost:7000/api/code/update/${codeId}`, {
+        code: currentCode,
+        language: selectedLanguage,
+      })
+        .then((response) => {
+          // Handle the response if needed
+          console.log(response.data);
+          setIsSaved(true);
+        })
+        .catch((error) => {
+          // Handle errors
+          console.error("Error:", error);
+        });
+    }
+  };
+
+  const handleModalSave = async (e) => {
+    e.preventDefault();
+    // Handle save action from the modal
+    Axios.post("http://localhost:7000/api/code", {
+      name: codeName, // Use the code name from the modal
+      workspace: selectedWorkspace,
+      code: currentCode,
+      language: selectedLanguage,
+    })
+      .then((response) => {
+        console.log(response.data);
+        setIsSaved(true);
+        setCodeId(response.data.codeId);
+        setCodeName(""); // Reset the code name after saving
+        closeModal(); // Close the modal after saving
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
+
+  const customStyles = {
+    content: {
+      top: "50%",
+      left: "50%",
+      right: "auto",
+      bottom: "auto",
+      marginRight: "-50%",
+      transform: "translate(-50%, -50%)",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+    },
+    form: {
+      width: "100%",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+    },
+    submitButton: {
+      backgroundColor: "#007bff",
+      color: "#fff",
+      padding: "8px 16px",
+      borderRadius: "4px",
+      border: "none",
+      cursor: "pointer",
+      marginTop: "16px",
+    },
+  };
+
   return (
     <div>
       <Modal
@@ -640,8 +748,11 @@ export default function compiler() {
               {!isSaved ? (
                 <>
                   {" "}
-                  <button className="mt-3 bg-transparent text-white-800 py-1 px-6  self-center border border-white-800 text-white text-sm">
-                    save code
+                  <button
+                    className="mt-4 bg-transparent text-white-800 py-1 px-6 self-center border border-white-800 text-white text-sm"
+                    onClick={saveCode} // Attach the saveCode function to onClick event
+                  >
+                    Save code
                   </button>
                 </>
               ) : (
@@ -1053,6 +1164,29 @@ export default function compiler() {
           </Box>
         </Modals>
       )}
+      <Modal
+        isOpen={isModalOpen}
+        onRequestClose={closeModal}
+        contentLabel="Code Name Modal"
+        style={customStyles}
+      >
+        <h2>Enter Code Name</h2>
+        <form onSubmit={handleModalSave} style={customStyles.form}>
+          <div>
+            <label htmlFor="codeName">Code Name:</label>
+            <input
+              type="text"
+              id="codeName"
+              value={codeName}
+              onChange={(e) => setCodeName(e.target.value)}
+              style={{ width: "100%", padding: "8px" }}
+            />
+          </div>
+          <button type="submit" style={customStyles.submitButton}>
+            Save
+          </button>
+        </form>
+      </Modal>
     </div>
   );
 }
