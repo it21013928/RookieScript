@@ -9,6 +9,7 @@ const createLesson = async (req, res) => {
       xpLevel,
       language,
       category,
+      lessonOrder,
       videoList,
       articleList,
       quizList,
@@ -35,6 +36,7 @@ const createLesson = async (req, res) => {
       xpLevel,
       category,
       language,
+      lessonOrder,
       videoList,
       articleList,
       quizList,
@@ -48,6 +50,7 @@ const createLesson = async (req, res) => {
       xpLevel,
       category,
       language,
+      lessonOrder,
       videoList,
       articleList,
       quizList,
@@ -212,6 +215,7 @@ const updateLesson = async (req, res) => {
       xpLevel,
       language,
       category,
+      lessonOrder,
       videoList,
       articleList,
       quizList,
@@ -230,6 +234,7 @@ const updateLesson = async (req, res) => {
     lesson.xpLevel = xpLevel || lesson.xpLevel;
     lesson.language = language || lesson.language;
     lesson.category = category || lesson.category;
+    lesson.lessonOrder = lessonOrder || lesson.lessonOrder;
     lesson.videoList = videoList || lesson.videoList;
     lesson.articleList = articleList || lesson.articleList;
     lesson.quizList = quizList || lesson.quizList;

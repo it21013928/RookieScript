@@ -22,6 +22,10 @@ const lessonSchema = new Schema({
     type: String,
     required: false,
   },
+  lessonOrder: {
+    type: Number,
+    required: false,
+  },
   videoList: {
     type: [String],
     required: false,
@@ -36,6 +40,10 @@ const lessonSchema = new Schema({
   },
   keywords: {
     type: [String],
+    required: false,
+  },
+  creatorId: {
+    type: String,
     required: false,
   },
 });

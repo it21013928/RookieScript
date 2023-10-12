@@ -40,6 +40,16 @@ function lessonPage() {
   const [articleList, setArticleList] = React.useState("");
   const [quizList, setQuizList] = React.useState("");
 
+  let [uTitle, setUTitle] = React.useState("");
+  let [uDescription, setUDescription] = React.useState("");
+  let [uXpLevel, setUXpLevel] = React.useState("");
+  let [uLanguage, setULanguage] = React.useState("");
+  let [uLessonOrder, setULessonOrder] = React.useState("");
+  let [uCategory, setUCategory] = React.useState("");
+  let [uVideoList, setUVideoList] = React.useState("");
+  let [uArticleList, setUArticleList] = React.useState("");
+  let [uQuizList, setUQuizList] = React.useState("");
+
   const [lessons, setLessons] = useState(null);
   const [formattedLessons, setFormattedLessons] = React.useState(null);
   const [currentDeleteId, setCurrentDeleteId] = React.useState("");
@@ -52,6 +62,16 @@ function lessonPage() {
   const [languageError, setLanguageError] = React.useState("");
   const [lessonOrderError, setLessonOrderError] = React.useState("");
   const [categoryError, setCategoryError] = React.useState("");
+
+  // uTitle = currentUpdateObject[0].title;
+  // uDescription = currentUpdateObject[0].description;
+  // uXpLevel = currentUpdateObject[0].xpLevel;
+  // uLanguage = currentUpdateObject[0].language;
+  // uLessonOrder = currentUpdateObject[0].lessonOrder;
+  // uCategory = currentUpdateObject[0].category;
+  // uVideoList = currentUpdateObject[0].videoList;
+  // uArticleList = currentUpdateObject[0].articleList;
+  // uQuizList = currentUpdateObject[0].quizList;
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => {
@@ -257,18 +277,54 @@ function lessonPage() {
 
   //Update a lesson
   const handleUpdate = async () => {
-    console.log("Title:", title);
-    console.log("Description:", description);
-    console.log("Experience Level:", xpLevel);
-    console.log("Language:", language);
-    console.log("Lesson Order:", lessonOrder);
-    console.log("Video Links:", videoList);
-    console.log("Article Links:", articleList);
-    console.log("Quiz Links:", quizList);
+    // console.log("Title:", title);
+    // console.log("Description:", description);
+    // console.log("Experience Level:", xpLevel);
+    // console.log("Language:", language);
+    // console.log("Lesson Order:", lessonOrder);
+    // console.log("Video Links:", videoList);
+    // console.log("Article Links:", articleList);
+    // console.log("Quiz Links:", quizList);
 
     const videoArray = videoList.split(",").map((value) => value.trim());
     const articleArray = articleList.split(",").map((value) => value.trim());
     const quizArray = quizList.split(",").map((value) => value.trim());
+
+    if (!title) {
+      setTitle(currentUpdateObject[0].title);
+    }
+
+    if (!description) {
+      setDescription(currentUpdateObject[0].description);
+    }
+
+    if (!lessonOrder) {
+      setLessonOrder(currentUpdateObject[0].lessonOrder);
+    }
+
+    if (!xpLevel) {
+      setXpLevel(currentUpdateObject[0].xpLevel);
+    }
+
+    if (!language) {
+      setLanguage(currentUpdateObject[0].language);
+    }
+
+    if (!category) {
+      setCategory(currentUpdateObject[0].category);
+    }
+
+    if (videoList.length < 0) {
+      setVideoList(currentUpdateObject[0].videoList);
+    }
+
+    if (videoList.length < 0) {
+      setArticleList(currentUpdateObject[0].articleList);
+    }
+
+    if (videoList.length < 0) {
+      setQuizList(currentUpdateObject[0].quizList);
+    }
 
     Axios.patch(`http://localhost:7000/api/lesson/${currentUpdateId}`, {
       title: title,
@@ -287,6 +343,16 @@ function lessonPage() {
       handleUpdateSuccessModalOpen();
     }
   };
+
+  // console.log("Title", uTitle);
+  // console.log("Description", uDescription);
+  // console.log("Experience Level", uXpLevel);
+  // console.log("Language", uLanguage);
+  // console.log("Lesson Order", uLessonOrder);
+  // console.log("Category", uCategory);
+  //console.log("Video Links", currentUpdateObject[0].videoList);
+  // console.log("Article Links", uArticleList);
+  // console.log("Quiz Links", uQuizList);
 
   return (
     <div className=" pb-40">
@@ -428,7 +494,6 @@ function lessonPage() {
                             defaultValue={currentUpdateObject[0].xpLevel}
                             labelId="experience-level-label"
                             id="experience-level"
-                            value={xpLevel}
                             label="Experience Level"
                             onChange={(event) => {
                               const value = event.target.value;
@@ -462,7 +527,6 @@ function lessonPage() {
                             defaultValue={currentUpdateObject[0].language}
                             labelId="language-label"
                             id="language"
-                            //value={language}
                             label="Language"
                             onChange={(event) =>
                               setLanguage(event.target.value)
@@ -473,6 +537,7 @@ function lessonPage() {
                           </Select>
                         </FormControl>
 
+                        {/* {currentUpdateObject[0].language != "" && ( */}
                         <FormControl
                           fullWidth
                           margin="normal"
@@ -485,7 +550,6 @@ function lessonPage() {
                               defaultValue={currentUpdateObject[0].category}
                               labelId="category-label"
                               id="category"
-                              //value={category}
                               label="Category"
                               onChange={(event) =>
                                 setCategory(event.target.value)
@@ -516,6 +580,7 @@ function lessonPage() {
                             </Select>
                           )}
                         </FormControl>
+                        {/* )} */}
 
                         <p id="parent-modal-description">
                           Add comma seperated values for the following fields.
