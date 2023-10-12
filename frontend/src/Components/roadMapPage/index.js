@@ -65,13 +65,11 @@ function roadmapPage() {
   //submit the selected values
 
   const handleSubmitQuesForm = async () => {
-
     console.log("Selected Experience Level:", xpLevel);
     //console.log("Open to Learn Multiple Languages:", multiLang);
     console.log("Preferred Language:", preferredLang);
     console.log("Prefer Interactive Learning:", interLearning);
     console.log("Selected Category:", category);
-
 
     try {
       // Filter lessons
@@ -100,7 +98,6 @@ function roadmapPage() {
     } catch (error) {
       console.error("Error querying the database:", error);
     }
-
   };
 
   return (
@@ -157,7 +154,6 @@ function roadmapPage() {
               </Typography>
 
               <div class="flex gap-4 text-center justify-center items-center">
-
                 <Radio
                   name="xpLevel"
                   label="Beginner"
@@ -211,7 +207,6 @@ function roadmapPage() {
               </Typography>
 
               <div class="flex gap-2 text-center justify-center items-center">
-
                 <Radio
                   name="preferredLang"
                   label="Java"
@@ -246,7 +241,7 @@ function roadmapPage() {
 
               {/* Conditional rendering based on the selected language */}
 
-              {preferredLang === "Java" && (
+              {preferredLang === "Java" ? (
                 <div class="flex gap-4 text-center justify-center items-center">
                   <Radio
                     name="category"
@@ -269,28 +264,26 @@ function roadmapPage() {
                     onChange={() => setCategory("JDBC")}
                   />
                 </div>
-              )}
-
-              {preferredLang === "PHP" && (
+              ) : (
                 <div class="flex gap-4 text-center justify-center items-center">
                   <Radio
                     name="category"
                     label="PHP Basics"
-                    checked={xpLevel === "PHP Basics"}
+                    checked={category === "PHP Basics"}
                     onChange={() => setCategory("PHP Basics")}
                   />
 
                   <Radio
                     name="category"
                     label="Frameworks"
-                    checked={xpLevel === "Frameworks"}
+                    checked={category === "Frameworks"}
                     onChange={() => setCategory("Frameworks")}
                   />
 
                   <Radio
                     name="category"
                     label="Profilling"
-                    checked={xpLevel === "Profilling"}
+                    checked={category === "Profilling"}
                     onChange={() => setCategory("Profilling")}
                   />
                 </div>
@@ -305,7 +298,6 @@ function roadmapPage() {
               </Typography>
 
               <div class="flex gap-2 text-center justify-center items-center">
-
                 <Radio
                   name="interLearning"
                   label="Yes"
@@ -320,7 +312,6 @@ function roadmapPage() {
                 />
               </div>
 
-
               <div class="flex justify-center items-center">
                 <Button
                   className="mt-10 bg-black w-max h-12 text-white py-1 px-8 rounded-md center"
@@ -330,7 +321,6 @@ function roadmapPage() {
                   Submit my Answers
                 </Button>
               </div>
-
             </form>
           </Card>
         </div>
