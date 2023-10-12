@@ -17,7 +17,7 @@ const codeSchema = new Schema({
   language: {
     type: String,
     required: true,
-  }
+  },
 });
 
 // export code model

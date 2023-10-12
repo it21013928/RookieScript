@@ -5,7 +5,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 
-const port = 7000;
+const port = process.env.PORT;
 const app = express();
 
 // middleware
@@ -21,37 +21,31 @@ app.use(cookieParser());
 //Import Routes
 const lessonRoutes = require("./src/routes/lessonRoutes");
 const workspaceRoutes = require("./src/routes/workspaceRoutes");
-
+const codeSnippetRoutes = require("./src/routes/codeSnippetRoutes");
 const userRoutes = require("./src/routes/userRoutes");
-
 const questionRoutes = require("./src/routes/questionRoutes");
 const codeRoutes = require("./src/routes/codeRoutes");
-const codeSnippetRoutes = require("./src/routes/codeSnippetRoutes");
+// const codeSnippetRoutes = require("./src/routes/codeSnippetRoutes");
 
 //Use routes
 app.use("/api/lesson", lessonRoutes);
 app.use("/api/workspace", workspaceRoutes);
-
 app.use("/api/codeSnippets", codeSnippetRoutes);
 app.use("/api/user", userRoutes);
+app.use("/api/code", codeRoutes);
+app.use("/api/question", questionRoutes);
+app.use("/api/codeSnippets", codeSnippetRoutes);
 app.get("/remove-cookie", (req, res) => {
   res.cookie("jwt", "", { maxAge: 1 });
-
-  app.use("/api/code", codeRoutes);
-  app.use("/api/question", questionRoutes);
-  app.use("/api/codeSnippets", codeSnippetRoutes);
 
   res.sendStatus(200);
 });
 //Connect to MongoDB
 mongoose
-  .connect(
-    "mongodb+srv://KithminaSiriwardana:KithminaSiriwardana@rookiescript.gbns506.mongodb.net/RookieScript?retryWrites=true&w=majority",
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    }
-  )
+  .connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => {
     console.log("Connected to MongoDB");
   })
