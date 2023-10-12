@@ -55,6 +55,9 @@ import { AiFillCaretRight } from "react-icons/ai";
 import { useRouter } from "next/router";
 import { motion } from "framer-motion";
 import beautify from "js-beautify";
+
+import Axioss from "@/api/Axioss";
+
 export default function compiler() {
   const [selectedLanguage, setSelectedLanguage] = useState("php");
   const [output, setOutput] = useState("");
@@ -79,6 +82,8 @@ export default function compiler() {
   const [mark, setMark] = useState(0);
   const [good, setGood] = useState("");
   const [bad, setBad] = useState("");
+  const [userData, setUserData] = useState({ user: {} });
+
   useEffect(() => {
     const editor = ace.edit("editor");
     editor.setTheme(`ace/theme/${editorTheme}`);
@@ -175,6 +180,17 @@ export default function compiler() {
   }
   console.log(typeof output);
 
+  useEffect(() => {
+    Axioss.get("api/user/getUserProfile")
+      .then((response) => {
+        console.log(response.data); // Access the response data here
+        setUserData(response.data);
+      })
+      .catch((error) => {
+        console.error(error); // Handle any errors here
+      });
+  }, []);
+
   async function executeCode() {
     currentErrorRef.current = "";
     setIsCompiled(true);
@@ -258,7 +274,7 @@ export default function compiler() {
     // setIsLoading(true);
     openai = new OpenAI({
       //openAIApiKey: "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",
-      openAIApiKey: "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",
+      openAIApiKey: "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",
       temperature: 0.8,
     });
     const template =
@@ -319,7 +335,7 @@ export default function compiler() {
     // setIsLoading(true);
     openai = new OpenAI({
       //openAIApiKey: "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",
-      openAIApiKey: "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",
+      openAIApiKey: "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",
       temperature: 0.8,
     });
     const template =
@@ -356,7 +372,7 @@ export default function compiler() {
     // setIsLoading(true);
     openai = new OpenAI({
       //openAIApiKey: "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",
-      openAIApiKey: "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",
+      openAIApiKey: "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",
       temperature: 0.8,
     });
     const template =
@@ -395,7 +411,7 @@ export default function compiler() {
     setIsEveluating(true);
     openai = new OpenAI({
       //openAIApiKey: "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",
-      openAIApiKey: "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",
+      openAIApiKey: "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",
       temperature: 0.8,
     });
     const template =
@@ -425,6 +441,9 @@ export default function compiler() {
       setMark(parseInt(data.marks) * 10);
       setGood(data.good);
       setBad(data.bad);
+      Axioss.post("api/user/addUserScore", {
+        score: parseInt(data.marks) * 10,
+      });
     } catch (e) {
       console.log("retrying attempt");
       evaluateCode();
