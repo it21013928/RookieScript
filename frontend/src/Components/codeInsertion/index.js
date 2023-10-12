@@ -1,14 +1,20 @@
-
-import React, { useState } from 'react';
-import { Container, TextField, Button, Typography, Box } from '@mui/material';
-import axios from 'axios';
+import React, { useState } from "react";
+import {
+  Container,
+  TextField,
+  Button,
+  Typography,
+  Box,
+  Grid,
+} from "@mui/material";
+import axios from "axios";
+import { useRouter } from "next/router";
 
 const CodeSnippetForm = () => {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [code, setCode] = useState('');
-  const [tags, setTags] = useState('');
-
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [code, setCode] = useState("");
+  const [tags, setTags] = useState("");
   const [tagList, setTagList] = useState([]);
 
   const handleTagChange = (e) => {
@@ -16,38 +22,40 @@ const CodeSnippetForm = () => {
   };
 
   const handleAddTag = () => {
-
-    if (tags.trim() !== '') {
+    if (tags.trim() !== "") {
       setTagList([...tagList, tags.trim()]);
-      setTags('');
-
+      setTags("");
     }
   };
   //////////////////////////////////////////////////////////////
 
   const handleSubmit = async () => {
-
-    console.log(tagList)
+    console.log(tagList);
     try {
-      const response = await axios.post('http://localhost:7000/api/codeSnippets/insertCodeSnippet', {
-        title,
-        description,
-        code,
-        tags: tagList,
-      });
-  
-      console.log('Code snippet successfully inserted:', response.data);
+      const response = await axios.post(
+        "http://localhost:7000/api/codeSnippets/insertCodeSnippet",
+        {
+          title,
+          description,
+          code,
+          tags: tagList,
+        }
+      );
 
+      console.log("Code snippet successfully inserted:", response.data);
       // Optionally, you can reset the form fields here
       // setTitle('');
       // setDescription('');
       // setCode('');
       // setTagList([]);
     } catch (error) {
-
-      console.error('Error inserting code snippet:', error);
-
+      console.error("Error inserting code snippet:", error);
     }
+  };
+
+  const router = useRouter();
+  const handleViewPage = () => {
+    router.push("/allCodeSnippets");
   };
 
   return (
@@ -94,7 +102,12 @@ const CodeSnippetForm = () => {
           value={tags}
           onChange={handleTagChange}
         />
-        <Button variant="contained" color="primary" onClick={handleAddTag}>
+        <Button
+          variant="contained"
+          color="primary"
+          style={{ backgroundColor: "blue", color: "white" }}
+          onClick={handleAddTag}
+        >
           Add Tag
         </Button>
         <ul>
@@ -102,9 +115,24 @@ const CodeSnippetForm = () => {
             <li key={index}>{tag}</li>
           ))}
         </ul>
-        <Button variant="contained" color="primary" onClick={handleSubmit}>
-          Submit
-        </Button>
+        <Grid container justifyContent="flex-end">
+          <Button
+            variant="contained"
+            color="primary"
+            style={{ backgroundColor: "blue", color: "white" }}
+            onClick={handleSubmit}
+          >
+            Submit
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            style={{ backgroundColor: "blue", color: "white" }}
+            onClick={handleViewPage}
+          >
+            View All Codes
+          </Button>
+        </Grid>
       </Box>
     </Container>
   );
