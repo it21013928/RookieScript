@@ -21,17 +21,29 @@ app.use(cookieParser())
 //Import Routes
 const lessonRoutes = require("./src/routes/lessonRoutes");
 const workspaceRoutes = require("./src/routes/workspaceRoutes");
+
 const codeSnippetRoutes = require("./src/routes/codeSnippetRoutes");
 const userRoutes = require("./src/routes/userRoutes")
+
+const questionRoutes = require("./src/routes/questionRoutes");
+const codeRoutes = require("./src/routes/codeRoutes");
+const codeSnippetRoutes = require("./src/routes/codeSnippetRoutes");
+
 
 //Use routes
 app.use("/api/lesson", lessonRoutes);
 app.use("/api/workspace", workspaceRoutes);
+
 app.use("/api/codeSnippets", codeSnippetRoutes)
 app.use("/api/user", userRoutes)
 app.get("/remove-cookie", (req, res) => {
 
   res.cookie("jwt", "", { maxAge: 1 });
+
+app.use("/api/code", codeRoutes);
+app.use("/api/question", questionRoutes);
+app.use("/api/codeSnippets", codeSnippetRoutes);
+
 
   res.sendStatus(200);
 

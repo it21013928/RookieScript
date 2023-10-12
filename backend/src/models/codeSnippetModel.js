@@ -9,10 +9,12 @@ const codeSnippetSchema = new Schema({
   description: {
     type: String,
     required: true,
+
   }, 
   code: {
     type: String,
     required: true
+
   },
   tags: {
     type: [String],

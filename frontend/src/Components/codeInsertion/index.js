@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Container, TextField, Button, Typography, Box } from '@mui/material';
 import axios from 'axios';
@@ -7,6 +8,7 @@ const CodeSnippetForm = () => {
   const [description, setDescription] = useState('');
   const [code, setCode] = useState('');
   const [tags, setTags] = useState('');
+
   const [tagList, setTagList] = useState([]);
 
   const handleTagChange = (e) => {
@@ -14,14 +16,17 @@ const CodeSnippetForm = () => {
   };
 
   const handleAddTag = () => {
+
     if (tags.trim() !== '') {
       setTagList([...tagList, tags.trim()]);
       setTags('');
+
     }
   };
   //////////////////////////////////////////////////////////////
 
   const handleSubmit = async () => {
+
     console.log(tagList)
     try {
       const response = await axios.post('http://localhost:7000/api/codeSnippets/insertCodeSnippet', {
@@ -32,13 +37,16 @@ const CodeSnippetForm = () => {
       });
   
       console.log('Code snippet successfully inserted:', response.data);
+
       // Optionally, you can reset the form fields here
       // setTitle('');
       // setDescription('');
       // setCode('');
       // setTagList([]);
     } catch (error) {
+
       console.error('Error inserting code snippet:', error);
+
     }
   };
 
