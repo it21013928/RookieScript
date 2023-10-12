@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import Link from "next/link";
 import Modal from "react-modal";
+import Axioss from "@/api/Axioss";
 
 const customStyles = {
   content: {
@@ -36,7 +37,7 @@ function WorkspaceComponent() {
   const [workspaces, setWorkspaces] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newWorkspaceName, setNewWorkspaceName] = useState("");
-
+  const [userData, setUserData] = useState({ user: {} });
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -55,7 +56,7 @@ function WorkspaceComponent() {
       // Send a request to add a new workspace
       await Axios.post("http://localhost:7000/api/workspace", {
         name: newWorkspaceName,
-        user: "6515cc740fd1106243517f7a",
+        user: userData.user._id,
       });
 
       // Fetch the updated list of workspaces
@@ -77,8 +78,20 @@ function WorkspaceComponent() {
   };
 
   useEffect(() => {
-    fetchWorkspaces("6515cc740fd1106243517f7a");
+    Axioss.get("api/user/getUserProfile")
+      .then((response) => {
+        fetchWorkspaces(response.data.user._id);
+        console.log(response.data); // Access the response data here
+        setUserData(response.data);
+      })
+      .catch((error) => {
+        console.error(error); // Handle any errors here
+      });
   }, []);
+
+  // useEffect(() => {
+  //   fetchWorkspaces("6515cc740fd1106243517f7a");
+  // }, []);
 
   // import Axioss from "@/api/Axioss";
 
