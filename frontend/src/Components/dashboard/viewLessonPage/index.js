@@ -39,6 +39,7 @@ function lessonPage() {
   const [videoList, setVideoList] = React.useState("");
   const [articleList, setArticleList] = React.useState("");
   const [quizList, setQuizList] = React.useState("");
+  const [creatorId, setCreatorId] = React.useState("");
 
   let [uTitle, setUTitle] = React.useState("");
   let [uDescription, setUDescription] = React.useState("");
@@ -129,9 +130,13 @@ function lessonPage() {
     setOpenUpdateSuccessModal(false);
   };
 
+  const idd = "65258289c1995944d50ff2fb";
+
   //fetch all lessons
   const fetchLessons = async () => {
-    const response = await Axios.get("http://localhost:7000/api/lesson/");
+    const response = await Axios.get(
+      `http://localhost:7000/api/lesson/creator/${idd}`
+    );
     setLessons(response.data);
 
     // Transform the response data into the desired format
@@ -239,6 +244,7 @@ function lessonPage() {
       videoList: videoArray,
       articleList: articleArray,
       quizList: quizArray,
+      creatorId: idd,
     });
 
     // if (title.length < 3) {

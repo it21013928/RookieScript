@@ -4,6 +4,7 @@ const router = express.Router();
 const {
   createLesson,
   getAllLessons,
+  getLessonsByCreatorId,
   getLessonById,
   getLessonsByXpLevel,
   getLessonsByLanguage,
@@ -20,6 +21,9 @@ router.post("/", createLesson);
 
 //Get all lessons
 router.get("/", getAllLessons);
+
+//Get all lessons by ID
+router.get("/creator/:creatorId", getLessonsByCreatorId);
 
 //Get lesson by id
 router.get("/id/:id", getLessonById);

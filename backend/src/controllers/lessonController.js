@@ -14,6 +14,7 @@ const createLesson = async (req, res) => {
       articleList,
       quizList,
       keywords,
+      creatorId,
     } = req.body;
 
     //check title, description, xpLevel, language is empty
@@ -41,6 +42,7 @@ const createLesson = async (req, res) => {
       articleList,
       quizList,
       keywords,
+      creatorId,
     });
     await newLesson.save();
 
@@ -55,6 +57,7 @@ const createLesson = async (req, res) => {
       articleList,
       quizList,
       keywords,
+      creatorId,
     });
   } catch (err) {
     console.error(err);
@@ -68,6 +71,24 @@ const getAllLessons = async (req, res) => {
     const lessons = await Lesson.find();
     if (!lessons) {
       return res.status(404).json({ message: "Lessons not found" });
+    } else {
+      res.status(200).json(lessons);
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+// Get lessons by creatorId
+const getLessonsByCreatorId = async (req, res) => {
+  try {
+    const lessons = await Lesson.find({ creatorId: req.params.creatorId });
+
+    if (lessons.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "Lessons not found for the specified creatorId" });
     } else {
       res.status(200).json(lessons);
     }
@@ -270,6 +291,7 @@ module.exports = {
   createLesson,
   getAllLessons,
   getLessonById,
+  getLessonsByCreatorId,
   getLessonsByXpLevel,
   getLessonsByLanguage,
   getLessonsWithVideos,
