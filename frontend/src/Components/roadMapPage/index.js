@@ -20,11 +20,14 @@ function roadmapPage() {
   }, []);
 
   //submit the selected values
+
   const handleSubmitQuesForm = async () => {
+
     console.log("Selected Experience Level:", xpLevel);
     console.log("Open to Learn Multiple Languages:", multiLang);
     console.log("Preferred Language:", preferredLang);
     console.log("Prefer Interactive Learning:", interLearning);
+
 
     try {
       // Filter lessons
@@ -50,6 +53,7 @@ function roadmapPage() {
     } catch (error) {
       console.error("Error querying the database:", error);
     }
+
   };
 
   return (
@@ -104,7 +108,9 @@ function roadmapPage() {
               >
                 What is your current programming experience level?
               </Typography>
+
               <div class="flex gap-2 text-center justify-center items-center">
+
                 <Radio
                   name="xpLevel"
                   label="Beginner"
@@ -134,7 +140,9 @@ function roadmapPage() {
                 Are you open to learning multiple programming languages if they
                 align with your goals?
               </Typography>
+
               <div class="flex gap-2 text-center justify-center items-center">
+
                 <Radio
                   name="multiLang"
                   label="Yes"
@@ -155,7 +163,9 @@ function roadmapPage() {
               >
                 Are you interested in a specific programming language?
               </Typography>
+
               <div class="flex gap-2 text-center justify-center items-center">
+
                 <Radio
                   name="preferredLang"
                   label="Java"
@@ -177,7 +187,9 @@ function roadmapPage() {
                 Do you prefer interactive learning platforms, such as coding
                 challenges and hands-on exercises?
               </Typography>
+
               <div class="flex gap-2 text-center justify-center items-center">
+
                 <Radio
                   name="interLearning"
                   label="Yes"
@@ -192,6 +204,7 @@ function roadmapPage() {
                 />
               </div>
 
+
               <div class="flex justify-center items-center">
                 <Button
                   className="mt-10 bg-black w-max h-12 text-white py-1 px-8 rounded-md center"
@@ -201,6 +214,7 @@ function roadmapPage() {
                   Submit my Answers
                 </Button>
               </div>
+
             </form>
           </Card>
         </div>
