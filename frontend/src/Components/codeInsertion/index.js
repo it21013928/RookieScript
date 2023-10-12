@@ -1,12 +1,14 @@
-import React, { useState } from "react";
-import { Container, TextField, Button, Typography, Box } from "@mui/material";
-import axios from "axios";
+
+import React, { useState } from 'react';
+import { Container, TextField, Button, Typography, Box } from '@mui/material';
+import axios from 'axios';
 
 const CodeSnippetForm = () => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [code, setCode] = useState("");
-  const [tags, setTags] = useState("");
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [code, setCode] = useState('');
+  const [tags, setTags] = useState('');
+
   const [tagList, setTagList] = useState([]);
 
   const handleTagChange = (e) => {
@@ -14,28 +16,27 @@ const CodeSnippetForm = () => {
   };
 
   const handleAddTag = () => {
-    if (tags.trim() !== "") {
+
+    if (tags.trim() !== '') {
       setTagList([...tagList, tags.trim()]);
-      setTags("");
+      setTags('');
+
     }
   };
   //////////////////////////////////////////////////////////////
 
   const handleSubmit = async () => {
-    console.log(tagList);
-    alert("Code snippet successfully inserted");
-    try {
-      const response = await axios.post(
-        "http://localhost:7000/api/codeSnippets/insertCodeSnippet",
-        {
-          title,
-          description,
-          code,
-          tags: tagList,
-        }
-      );
 
-      console.log("Code snippet successfully inserted:", response.data);
+    console.log(tagList)
+    try {
+      const response = await axios.post('http://localhost:7000/api/codeSnippets/insertCodeSnippet', {
+        title,
+        description,
+        code,
+        tags: tagList,
+      });
+  
+      console.log('Code snippet successfully inserted:', response.data);
 
       // Optionally, you can reset the form fields here
       // setTitle('');
@@ -43,7 +44,9 @@ const CodeSnippetForm = () => {
       // setCode('');
       // setTagList([]);
     } catch (error) {
-      console.error("Error inserting code snippet:", error);
+
+      console.error('Error inserting code snippet:', error);
+
     }
   };
 
