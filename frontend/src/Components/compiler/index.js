@@ -83,6 +83,7 @@ export default function compiler() {
   const [good, setGood] = useState("");
   const [bad, setBad] = useState("");
   const [userData, setUserData] = useState({ user: {} });
+  const [isRedirectModalOpen, setIsRedirectModalOpen] = useState(false);
 
   useEffect(() => {
     const editor = ace.edit("editor");
@@ -274,7 +275,7 @@ export default function compiler() {
     // setIsLoading(true);
     openai = new OpenAI({
       //openAIApiKey: "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",
-      openAIApiKey: "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",
+      openAIApiKey: "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",
       temperature: 0.8,
     });
     const template =
@@ -335,7 +336,7 @@ export default function compiler() {
     // setIsLoading(true);
     openai = new OpenAI({
       //openAIApiKey: "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",
-      openAIApiKey: "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",
+      openAIApiKey: "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",
       temperature: 0.8,
     });
     const template =
@@ -365,14 +366,14 @@ export default function compiler() {
     setCorrectedCode(formattedCode);
     console.log("BBBBBBBBBBBBBBBBBBBBBBBBB", formattedCode);
 
-    // setIsLoading(false);
+    setIsLoading(false);
   };
 
   const requestExplanation = async () => {
     // setIsLoading(true);
     openai = new OpenAI({
       //openAIApiKey: "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",
-      openAIApiKey: "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",
+      openAIApiKey: "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",
       temperature: 0.8,
     });
     const template =
@@ -411,7 +412,7 @@ export default function compiler() {
     setIsEveluating(true);
     openai = new OpenAI({
       //openAIApiKey: "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",
-      openAIApiKey: "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",
+      openAIApiKey: "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",
       temperature: 0.8,
     });
     const template =
@@ -625,6 +626,10 @@ export default function compiler() {
     setIsModalOpen(false);
   };
 
+  const closeRediractModal = () => {
+    setIsRedirectModalOpen(false);
+  };
+
   useEffect(() => {
     setCodeId(router.query.codeId);
     setSelectedWorkspace(router.query.workspaceId);
@@ -633,37 +638,45 @@ export default function compiler() {
   }, []);
 
   const saveCode = () => {
-    if (codeId === "") {
-      // If either workspace or code name is not selected, show a prompt
-      openModal(); // If codeId is empty, open the modal
-      // Axios.post("http://localhost:7000/api/code", {
-      //   name: codeName,
-      //   workspace: selectedWorkspace,
-      //   code: currentCode,
-      //   language: selectedLanguage,
-      // })
-      //   .then((response) => {
-      //     console.log(response.data);
-      //     setIsSaved(true);
-      //     setCodeId(response.data.codeId);
-      //   })
-      //   .catch((error) => {
-      //     console.error("Error:", error);
-      //   });
+    console.log(
+      "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+      selectedWorkspace
+    );
+    if (selectedWorkspace === undefined) {
+      setIsRedirectModalOpen(true);
     } else {
-      Axios.patch(`http://localhost:7000/api/code/update/${codeId}`, {
-        code: currentCode,
-        language: selectedLanguage,
-      })
-        .then((response) => {
-          // Handle the response if needed
-          console.log(response.data);
-          setIsSaved(true);
+      if (codeId === "") {
+        // If either workspace or code name is not selected, show a prompt
+        openModal(); // If codeId is empty, open the modal
+        // Axios.post("http://localhost:7000/api/code", {
+        //   name: codeName,
+        //   workspace: selectedWorkspace,
+        //   code: currentCode,
+        //   language: selectedLanguage,
+        // })
+        //   .then((response) => {
+        //     console.log(response.data);
+        //     setIsSaved(true);
+        //     setCodeId(response.data.codeId);
+        //   })
+        //   .catch((error) => {
+        //     console.error("Error:", error);
+        //   });
+      } else {
+        Axios.patch(`http://localhost:7000/api/code/update/${codeId}`, {
+          code: currentCode,
+          language: selectedLanguage,
         })
-        .catch((error) => {
-          // Handle errors
-          console.error("Error:", error);
-        });
+          .then((response) => {
+            // Handle the response if needed
+            console.log(response.data);
+            setIsSaved(true);
+          })
+          .catch((error) => {
+            // Handle errors
+            console.error("Error:", error);
+          });
+      }
     }
   };
 
@@ -1203,6 +1216,21 @@ export default function compiler() {
           </div>
           <button type="submit" style={customStyles.submitButton}>
             Save
+          </button>
+        </form>
+      </Modal>
+      <Modal
+        isOpen={isRedirectModalOpen}
+        onRequestClose={closeRediractModal}
+        contentLabel="Warning Modal"
+        style={customStyles}
+      >
+        <h2>
+          You need to sign in and create a workspace in order to save your codes{" "}
+        </h2>
+        <form onSubmit={closeRediractModal} style={customStyles.form}>
+          <button type="submit" style={customStyles.submitButton}>
+            Ok
           </button>
         </form>
       </Modal>
