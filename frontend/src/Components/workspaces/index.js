@@ -55,7 +55,7 @@ function WorkspaceComponent() {
       // Send a request to add a new workspace
       await Axios.post("http://localhost:7000/api/workspace", {
         name: newWorkspaceName,
-        user: "6515cc740fd1106243517f7a"
+        user: "6515cc740fd1106243517f7a",
       });
 
       // Fetch the updated list of workspaces
@@ -70,13 +70,28 @@ function WorkspaceComponent() {
 
   const fetchWorkspaces = async (userId) => {
     console.log(userId);
-    const response = await Axios.get(`http://localhost:7000/api/workspace/${userId}`);
+    const response = await Axios.get(
+      `http://localhost:7000/api/workspace/${userId}`
+    );
     setWorkspaces(response.data);
   };
 
   useEffect(() => {
     fetchWorkspaces("6515cc740fd1106243517f7a");
   }, []);
+
+  // import Axioss from "@/api/Axioss";
+
+  // useEffect(() => {
+  //   Axioss.get("api/user/getUserProfile")
+  //     .then((response) => {
+  //       console.log(response.data); // Access the response data here
+  //       setUserData(response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.error(error); // Handle any errors here
+  //     });
+  // }, []);
 
   return (
     <div style={{ minHeight: "25em" }}>
@@ -114,8 +129,10 @@ function WorkspaceComponent() {
           <Link
             href={{
               pathname: "/workspace",
-              query: { workspaceId: workspace._id, 
-                workspacename: workspace.name }, // the data
+              query: {
+                workspaceId: workspace._id,
+                workspacename: workspace.name,
+              }, // the data
             }}
           >
             <div
