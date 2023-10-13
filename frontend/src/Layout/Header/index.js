@@ -102,15 +102,17 @@ function Header() {
 
                 {userData.user._id ? (
                   <>
-                    <li>
-                      <div
-                        className="lg:px-6 font-medium font-secondary block text-black/70 hover:text-blue-500 p-3 uppercase text-sm"
-                        href="logout.html"
-                        title="Logout"
-                      >
-                        Profile
-                      </div>
-                    </li>
+                    <Link href={{ pathname: "/myProfile" }}>
+                      <li>
+                        <div
+                          className="lg:px-6 font-medium font-secondary block text-black/70 hover:text-blue-500 p-3 uppercase text-sm"
+                          href="logout.html"
+                          title="Logout"
+                        >
+                          Profile
+                        </div>
+                      </li>
+                    </Link>
                     <li>
                       <div
                         className="lg:px-6 font-medium font-secondary block text-black/70 hover:text-blue-500 p-3 uppercase text-sm"
@@ -122,15 +124,17 @@ function Header() {
                     </li>
                   </>
                 ) : (
-                  <li>
-                    <div
-                      className="lg:px-6 font-medium font-secondary block text-black/70 hover:text-blue-500 p-3 uppercase text-sm"
-                      href="login.html"
-                      title="Login"
-                    >
-                      Login
-                    </div>
-                  </li>
+                  <Link href={{ pathname: "/signIn" }}>
+                    <li>
+                      <div
+                        className="lg:px-6 font-medium font-secondary block text-black/70 hover:text-blue-500 p-3 uppercase text-sm"
+                        href="login.html"
+                        title="Login"
+                      >
+                        Login
+                      </div>
+                    </li>
+                  </Link>
                 )}
               </ul>
             </div>
