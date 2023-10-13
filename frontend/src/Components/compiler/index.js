@@ -274,8 +274,8 @@ export default function compiler() {
   const snedOpenAI = async () => {
     // setIsLoading(true);
     openai = new OpenAI({
-      //openAIApiKey: "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",
-      openAIApiKey: "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",
+      openAIApiKey: "sk-mZscSYttBGtvIHN1gJk3T3BlbkFJHrFKn660jz6Yz1uHX",
+
       temperature: 0.8,
     });
     const template =
@@ -335,8 +335,8 @@ export default function compiler() {
   const requestCorrectCode = async () => {
     // setIsLoading(true);
     openai = new OpenAI({
-      //openAIApiKey: "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",
-      openAIApiKey: "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",
+      openAIApiKey: "sk-mZscSYttBGtvIHN1gJk3T3BlbkFJHrFKn660jz6Yz1uHX",
+
       temperature: 0.8,
     });
     const template =
@@ -371,8 +371,8 @@ export default function compiler() {
   const requestExplanation = async () => {
     // setIsLoading(true);
     openai = new OpenAI({
-      //openAIApiKey: "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",
-      openAIApiKey: "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",
+      openAIApiKey: "sk-mZscSYttBGtvIHN1gJk3T3BlbkFJHrFKn660jz6Yz1uHX",
+
       temperature: 0.8,
     });
     const template =
@@ -410,8 +410,8 @@ export default function compiler() {
   const evaluateCode = async () => {
     setIsEveluating(true);
     openai = new OpenAI({
-      //openAIApiKey: "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",
-      openAIApiKey: "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",
+      openAIApiKey: "sk-mZscSYttBGtvIHN1gJk3T3BlbkFJHrFKn660jz6Yz1uHX",
+
       temperature: 0.8,
     });
     const template =
@@ -773,7 +773,7 @@ export default function compiler() {
         >
           <Grid container spacing={0}>
             <Grid item xs={5.0}>
-              <p className="mt-3 ml-4 text-white">workspace name</p>
+              <p className="mt-3 ml-4 text-white"></p>
             </Grid>
             <Grid item xs={2.0}>
               {!isSaved ? (
@@ -808,22 +808,25 @@ export default function compiler() {
               </select>{" "}
             </Grid>
             <Grid item xs={1} style={{ borderRight: "2px solid gray" }}>
-              <Button
-                type="primary"
-                icon={
-                  <AiFillCaretRight
-                    style={{
-                      color: "white",
-                      fontSize: "15px",
-                      marginLeft: "-2px",
-                    }}
-                  />
-                }
-                loading={isExecuting}
-                onClick={executeCode}
-                className="mt-3 bg-blue-800 text-white   self-center"
-                style={{ width: "2em", height: "2em" }}
-              />
+              {currentCode != "" ? (
+                <Button
+                  type="primary"
+                  icon={
+                    <AiFillCaretRight
+                      style={{
+                        color: "white",
+                        fontSize: "15px",
+                        marginLeft: "-2px",
+                      }}
+                    />
+                  }
+                  loading={isExecuting}
+                  onClick={executeCode}
+                  className="mt-3 bg-blue-800 text-white   self-center"
+                  style={{ width: "2em", height: "2em" }}
+                />
+              ) : null}
+
               {/* <button
                 className="mt-3 bg-blue-800 text-white py-1 px-2  self-center"
                 style={{ borderRadius: "25px" }}
