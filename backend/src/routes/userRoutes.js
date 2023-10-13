@@ -8,7 +8,8 @@ const {
     addUserScore,
     getUserById,
     getUserRank,
-    calculateAverageScores
+    calculateAverageScores,
+    getUserScoresList
 
   } = require("../controllers/userControler");
 const { authenticateUserMiddleware } = require('../middleware/auth');
@@ -27,10 +28,13 @@ router.post('/addUserScore', addUserScore)
 router.get('/getUserProfile', authenticateUserMiddleware,getUserById)
 
 //get user rank
-router.get('/getUserRank', getUserRank)
+router.get('/getUserRank',  authenticateUserMiddleware,getUserRank)
 
 //calculate avaerage scores
 router.get('/getAverages', calculateAverageScores)
+
+//get scores list
+router.get('/getScoresList', authenticateUserMiddleware,getUserScoresList)
 
 
 module.exports = router;

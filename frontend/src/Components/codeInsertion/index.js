@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Container, TextField, Button, Typography, Box } from '@mui/material';
+import { Container, TextField, Button, Typography, Box, Grid  } from '@mui/material';
 import axios from 'axios';
+import { useRouter } from 'next/router';
 
 const CodeSnippetForm = () => {
   const [title, setTitle] = useState('');
@@ -41,6 +42,13 @@ const CodeSnippetForm = () => {
       console.error('Error inserting code snippet:', error);
     }
   };
+
+  const router = useRouter();
+  const handleViewPage = () => {
+    router.push('/allCodeSnippets');
+  };
+
+  
 
   return (
     <Container maxWidth="sm">
@@ -86,7 +94,8 @@ const CodeSnippetForm = () => {
           value={tags}
           onChange={handleTagChange}
         />
-        <Button variant="contained" color="primary" onClick={handleAddTag}>
+        <Button variant="contained" color="primary" 
+        style={{ backgroundColor: 'blue', color: 'white' }}onClick={handleAddTag}>
           Add Tag
         </Button>
         <ul>
@@ -94,9 +103,16 @@ const CodeSnippetForm = () => {
             <li key={index}>{tag}</li>
           ))}
         </ul>
-        <Button variant="contained" color="primary" onClick={handleSubmit}>
-          Submit
-        </Button>
+        <Grid container justifyContent="flex-end">
+          <Button variant="contained" color="primary" 
+          style={{ backgroundColor: 'blue', color: 'white' }}onClick={handleSubmit}>
+            Submit
+          </Button>
+          <Button variant="contained" color="primary" 
+          style={{ backgroundColor: 'blue', color: 'white' }}onClick={handleViewPage}>
+            View All Codes
+          </Button>
+        </Grid>
       </Box>
     </Container>
   );

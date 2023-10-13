@@ -19,8 +19,11 @@ const authenticateUserMiddleware = (req,res,next)=>{
          else{
       console.log(decoded._id)
                UserModel.findOne({_id:decoded._id}).then(r=>{
+                
                 req.body.user = r;
+                console.log(req.body.user)
                 next();
+                
   
              }).catch(er=>{
                 return res.status(404).json({msg:"user not found",code:500});

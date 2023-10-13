@@ -147,6 +147,7 @@ try{
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              style={{ backgroundColor: 'blue', color: 'white' }}
               onClick={handleSubmit}
             >
               Sign Up

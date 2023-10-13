@@ -16,6 +16,9 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import axios from 'axios';
 import Axios from '@/api/Axios';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
+
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -38,6 +41,7 @@ export default function SignIn() {
   
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [error, setError] = useState('');
 
   const router = useRouter();
   const handleSubmit = async(event) => {
@@ -57,6 +61,7 @@ try{
     router.push('/myProfile');
 }
     catch(error){
+      setError(error.response.data.error);
       console.log(error)
     }
   };
@@ -106,11 +111,17 @@ try{
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             />
+            {error && (
+            <Alert severity="error">
+              {error}
+            </Alert>
+          )}
             <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              style={{ backgroundColor: 'blue', color: 'white' }}
               onClick={handleSubmit}
             >
               Sign In

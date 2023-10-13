@@ -29,6 +29,7 @@ app.use("/api/lesson", lessonRoutes);
 app.use("/api/workspace", workspaceRoutes);
 app.use("/api/codeSnippets", codeSnippetRoutes)
 app.use("/api/user", userRoutes)
+
 app.get("/remove-cookie", (req, res) => {
 
   res.cookie("jwt", "", { maxAge: 1 });

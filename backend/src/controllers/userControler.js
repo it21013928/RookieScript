@@ -130,7 +130,7 @@ const addUserScore = async (req, res) => {
 
 //Get user's info
 const getUserById = async (req, res) => {
-console.log(req.body)
+console.log("mekat awaa")
   const { user } = req.body;
 
   try {
@@ -153,24 +153,29 @@ console.log(req.body)
 // Get the rank of a specific user
 const getUserRank = async (req, res) => {
   try {
-    const { userId } = req.body;
+    const { user } = req.body;
 
-    // Calculate the average score for the specific user
-    const user = await UserModel.findById(userId, 'codeScore');
-    if (!user) {
+    // Find the specific user by ID
+    const userr = await UserModel.findById(user, 'codeScore');
+    if (!userr) {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    const average = user.codeScore.reduce((total, score) => total + score, 0) / user.codeScore.length;
+    // Calculate the average score for the specific user
+    const average = userr.codeScore.reduce((total, score) => total + score, 0) / userr.codeScore.length;
 
-    // Find the rank of the user based on the average score
+    // Find all users and their average scores
     const users = await UserModel.find({}, 'codeScore');
     const userAverages = users.map(user => ({
       _id: user._id,
       average: user.codeScore.reduce((total, score) => total + score, 0) / user.codeScore.length,
     }));
+
+    // Sort the userAverages array based on average scores (descending order)
     userAverages.sort((a, b) => b.average - a.average);
-    const rank = userAverages.findIndex(item => item._id.equals(userId)) + 1;
+
+    // Find the rank of the specific user
+    const rank = userAverages.findIndex(item => item._id.equals(user)) + 1;
 
     res.status(200).json({ average, rank });
   } catch (error) {
@@ -178,6 +183,7 @@ const getUserRank = async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
 
 // Calculate the average score for each user
 const calculateAverageScores = async (req, res) => {
@@ -201,6 +207,28 @@ const calculateAverageScores = async (req, res) => {
   }
 };
 
+// Get the count and list of scores for a specific user
+const getUserScoresList = async (req, res) => {
+  
+  try {
+    const { user } = req.body;
+
+    // Find the user by their ID
+    const userr = await UserModel.findById(user, 'codeScore');
+    if (!userr) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const scoreCount = user.codeScore.length;
+    const scoreList = user.codeScore;
+
+    res.status(200).json({ scoreCount, scoreList });
+  } catch (error) {
+    console.error('Error getting user scores:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
 
 
 
@@ -211,7 +239,8 @@ module.exports = {
   addUserScore,
   getUserById,
   getUserRank,
-  calculateAverageScores
+  calculateAverageScores,
+  getUserScoresList
 
   
  

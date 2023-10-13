@@ -127,11 +127,34 @@ const insertCode = (req,res)=>{
     }
   };
 
+  const deleteCodeSnippet = async (req, res) => {
+    try {
+      const snippetId = req.params.id; // Get the snippet ID from the request parameters
+  
+      // Check if the code snippet exists
+      const codeSnippet = await CodeSnippet.findById(snippetId);
+  
+      if (!codeSnippet) {
+        return res.status(404).json({ message: 'Code snippet not found' });
+      }
+  
+      // Delete the code snippet
+      await CodeSnippet.findByIdAndDelete(snippetId);
+  
+      res.status(200).json({ message: 'Code snippet deleted' });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Server error' });
+    }
+  };
+  
+
 
 module.exports = {
     addCodes,
     insertCode,
     getAllCodeSnippets,
     getCodeSnippetByTag,
-    insertCodeSnippet
+    insertCodeSnippet,
+    deleteCodeSnippet
   };
